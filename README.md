@@ -45,10 +45,10 @@
 
 ## 二O一.版本更新图表
 + 2.3.2版本
-![img.png](static/日记img/img2.png)
-![img.png](static/日记img/img.png)
+![img.png](src/main/resources/static/日记img/img2.png)
+![img.png](src/main/resources/static/日记img/img.png)
 + 2.3.2.1版本
-![img.png](static/日记img/img3.png)
+![img.png](src/main/resources/static/日记img/img3.png)
 ## 三.项目介绍:
 Main作为整个程序的主类,运行程序
 
