@@ -1,0 +1,56 @@
+.split-pane > .split-pane-divider {
+    -fx-padding: 1px;
+    -fx-background-color: #c2c2c2;
+    /*-fx-background-insets: 0;*/
+    /*-fx-shape: " ";*/
+}
+.legend{
+    -fx-background-color: #e1e1e1;
+}
+.legend:hover{
+    -fx-background-color: #b2b2b2;
+}
+.progressbarYt{
+    -fx-pref-height: 10px;
+    -fx-border-width: 1px;
+}
+/*这个是标签按钮的css样式*/
+.manuscript-box .button{
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(three-pass-box,#8c8c8c, 10.0,0, 0, 0);
+}
+.manuscript-box .button:hover{
+    -fx-background-color: derive(#d9d9d9,15%);
+}
+.cart-content{
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(three-pass-box,#8c8c8c, 10.0,0, 0, 0);
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+}
+.content-context .topLabel{
+    -fx-text-fill: #d3d3d3;
+}
+.content-context .bottomLabel{
+    -fx-text-fill: #757575;
+}
+.label-name{
+    -fx-pref-width: 340px;
+    -fx-background-color: #ffffff;
+    -fx-font-size: 15px;
+    -fx-effect: dropshadow(three-pass-box,#8c8c8c, 5.0,0, 0, 0);
+}
+.book{
+    -fx-pref-width: 130px;
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+}
+.book:hover{
+    -fx-effect: dropshadow(three-pass-box,#8c8c8c, 10.0,0, 0, 0);
+}
+
