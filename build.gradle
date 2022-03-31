@@ -57,6 +57,9 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
 
 jlink {
     imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")

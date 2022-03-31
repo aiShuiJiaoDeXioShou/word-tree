@@ -1,6 +1,7 @@
 package com.wordtree.wt_kt_module
 
 import com.wordtree.wt_config.Index_Config
+import com.wordtree.wt_kt_note_book.Coder
 import com.wordtree.wt_module.writing.Win
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Platform

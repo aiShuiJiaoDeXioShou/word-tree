@@ -19,5 +19,7 @@ module com.wordtree {
     opens com.wordtree to javafx.fxml;
     opens com.wordtree.wt_kt_module to javafx.fxml;
     exports com.wordtree.wt_kt_module;
+    exports com.wordtree.wt_kt_note_book;
+    opens com.wordtree.wt_kt_note_book to javafx.fxml;
     exports com.wordtree;
 }

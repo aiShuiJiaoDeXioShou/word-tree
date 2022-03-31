@@ -52,70 +52,18 @@
 ## 三.项目介绍:
 Main作为整个程序的主类,运行程序
 
- 二.实现对象
- physicalPackage作为父类包,分为两个父类,一个作为对用户管理的类
- User:
-  private String biming;//笔名
-     private String user;//用户名
-     private String password;//用户密码
-     private int zishu;//
-     private int xiugaicishu;
-     private Date date;
-  实现里面的主要功能的工具类:
-  UserShiXian,OperatingString下面的 public static void tonJi(String fl)方法
+二.实现对象 physicalPackage作为父类包,分为两个父类,一个作为对用户管理的类 User:
+private String biming;//笔名 private String user;//用户名 private String password;//用户密码 private int zishu;// private int
+xiugaicishu; private Date date; 实现里面的主要功能的工具类:
+UserShiXian,OperatingString下面的 public static void tonJi(String fl)方法
 
-  写作类writerPj:
-  工具包WritingToolkit下面实现方法有:CreateFlie对文件进行管理,OperatingString对txt文档进行操作
+写作类writerPj:
+工具包WritingToolkit下面实现方法有:CreateFlie对文件进行管理,OperatingString对txt文档进行操作
 
-三.经验总结
-1.面向对象里面的参数是不具备直接的值的,比如在调用User类的笔名项时,遭遇到了错误的情况.
-2.IO流传送与传输文件一定要记得释放内存不然,文字会一直卡在里面.
+三.经验总结 1.面向对象里面的参数是不具备直接的值的,比如在调用User类的笔名项时,遭遇到了错误的情况. 2.IO流传送与传输文件一定要记得释放内存不然,文字会一直卡在里面.
 3.开发项目一定要检查一个方法测试一次,不然项目多了要付出更大的代价.项目开发成功结束
 
-四.时间类
-时间戳(timestamp)：距离特定时间的间隔.
-计算机中的时间戳是指距离历元（1970-01-01 00：00：00：000）的时间间隔（ms）.
-格林尼治时间(GMT)：是一个标准时间，用于全球时间的标准化，也称世界协调时(UT)。各个国家通过时区偏移来定义各国的标准时间。
-计算机中时间2019-04-29 20:14:00 是该时间距离历元经过的毫秒数，用long类型存储。
-计算机中的时间表示为，当前时间距离历元经过的毫秒数，即时间戳。在计算机中，知道时间戳，就知道时间。
-时间本质上是一个整型。
-中国位于东八区
-中国的标准时china standard time = UTC + 08:00
-日本的标准时 = UTC + 09:00
-**********************************************************************
-大小写字母的含义:
-字母    	日期或时间元素	表示	示例
-G	Era 标志符	Text	AD
-y	年	Year	1996 ; 96
-M	年中的月份	Month	July ; Jul ; 07
-w	年中的周数	Number	27
-W	月份中的周数	Number	2
-D	年中的天数	Number	189
-d	月份中的天数	Number	10
-F	月份中的星期	Number	2
-E	星期中的天数	Text	Tuesday ; Tue
-a	Am/pm 标记	Text	PM
-H	一天中的小时数（0-23）	Number	0
-k	一天中的小时数（1-24）	Number	24
-K	am/pm 中的小时数（0-11）	Number	0
-h	am/pm 中的小时数（1-12）	Number	12
-m	小时中的分钟数	Number	30
-s	分钟中的秒数	Number	55
-S	毫秒数	Number	978
-z	时区	General time zone	Pacific Standard Time ; PST ; GMT-08:00
-Z	时区	RFC 822 time zone	-0800
-************************************************************************
 
 
-文本区获取光标当前位置
-~~~kotlin
-            var i = codeArea.caretPosition
-            val substring = readerText.substring(0, i)
-//            当前鼠标所在的行数和列数
-            row = substring.split("\n").size
-            col = codeArea.caretColumn
-            println(substring.split("\n").size)
-            println(substring)
-            codeArea.showParagraphAtCenter()
-            println( codeArea.caretColumn.toString()+"\t"+codeArea.caretPosition.toString())
-~~~
+
+
