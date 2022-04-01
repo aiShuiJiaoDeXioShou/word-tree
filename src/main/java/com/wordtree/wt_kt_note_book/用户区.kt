@@ -1,5 +1,6 @@
 package com.wordtree.wt_kt_note_book
 
+import cn.hutool.core.lang.hash.Hash
 import com.wordtree.wt_kt_module.CommonComponents
 import com.wordtree.wt_kt_module.assembly.BookBox
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
@@ -18,6 +19,7 @@ import javafx.scene.layout.*
 import javafx.scene.paint.ImagePattern
 import javafx.scene.paint.Paint
 import javafx.scene.shape.Circle
+import java.lang.NullPointerException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -29,6 +31,7 @@ private val userLineBox = HBox()
 private val userOperation = VBox()//用户操作部分父类盒子
 private val userRecord = VBox() //第一个切换盒子
 private val 用户操作面板tab栏 = TabPane()
+val userOperationBox = ArrayList<Pane>() //如果要创建一个新的面板很简单，只需要往这个盒子里面和setting.json添加相应的数据就行了
 
 //书架部分
 private val userBookshelf = VBox()
@@ -40,6 +43,7 @@ fun 属于用户的操作逻辑区域() {
         maxWidth = USER_WIDTH
         minWidth = 0.0
         children.addAll(用户名片部分(),用户操作部分(),书架())
+        userOperationBox.add(userRecord)
     }
 }
 
@@ -90,18 +94,28 @@ private fun 第一个切换盒子():VBox{
     return userRecord
 }
 private fun 用户名片栏的切换部分():TabPane{
+    //从配置文件,获取tab的数据
+    val tabData: ArrayList<Map<String, String>>? = R.propertiesItem("user_operation_tab")as ArrayList<Map<String, String>>
     //首先是一个tap页，这个页可以切换，让我们查看不同的状态
-    val laohuantou = Tab("老环头").apply { this.isClosable = false }
-    val heihun = Tab("黑魂").apply { this.isClosable = false }
-    val zhilang = Tab("只狼").apply { this.isClosable = false }
-    用户操作面板tab栏.tabs.addAll(laohuantou, heihun, zhilang)
-    用户操作面板tab栏.selectionModel.selectedItemProperty().addListener { _, old, new ->
-        if (new == laohuantou) {
+    for (tabItem in tabData!!) {
+        用户操作面板tab栏.tabs.add(Tab(tabItem.get("tab_name")).apply { this.isClosable = false })
+    }
 
-        } else if (new == heihun) {
-            println("黑魂")
-        } else if (new == zhilang) {
-            println("直男")
+    用户操作面板tab栏.selectionModel.selectedItemProperty().addListener { _, old, new ->
+        用户操作面板tab栏.tabs.forEachIndexed{index,tab->
+            if (tab == new){
+                try {
+                    if (userOperation.children.size==2){
+                        userOperation.children.removeAt(1)
+                    }
+                }catch (e:Exception){
+                    println("log_user_operation->已经没有多余的盒子了")
+                }finally {
+                    if (index<userOperationBox.size) {
+                        userOperation.children.add(userOperationBox[index])
+                    }
+                }
+            }
         }
     }
     return 用户操作面板tab栏

@@ -16,6 +16,7 @@ module com.wordtree {
     requires com.google.gson;
     requires org.fxmisc.flowless;
     requires hutool.all;
+    requires javafx.base;
 
     opens com.wordtree to javafx.fxml;
     opens com.wordtree.wt_kt_module to javafx.fxml;
@@ -23,4 +24,6 @@ module com.wordtree {
     exports com.wordtree.wt_kt_note_book;
     opens com.wordtree.wt_kt_note_book to javafx.fxml;
     exports com.wordtree;
+    exports com.wordtree.wt_kt_note_book.module_view_entity;
+    opens com.wordtree.wt_kt_note_book.module_view_entity to javafx.fxml;
 }

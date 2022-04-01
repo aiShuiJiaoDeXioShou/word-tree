@@ -6,5 +6,37 @@
       "码字时间"
     ]
   },
+  "user_operation_tab": [
+    {
+      "tab_name":"常用操作列表",
+      "tab_icon": ""
+    },
+    {
+      "tab_name":"任务列表",
+      "tab_icon": ""
+    },
+    {
+      "tab_name":"片段",
+      "tab_icon": ""
+    }
+  ],
+  "menu_bar": {
+    "menu_file":{
+      "item_name": "文件",
+      "children": [
+        "新建文件",
+        "保存文件",
+        "打开项目",
+        "新建项目",
+        "关闭项目"
+      ]
+    },
+    "setting":{
+      "item_name": "设置",
+      "children": [
+        "打开设置面板"
+      ]
+    }
+  },
   "key": "name"
 }
