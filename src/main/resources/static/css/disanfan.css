@@ -1,3 +1,6 @@
+* {
+    -fx-font-family: 'Microsoft YaHei UI';
+}
 .split-pane > .split-pane-divider {
     -fx-padding: 1px;
     -fx-background-color: #c2c2c2;
@@ -53,4 +56,10 @@
 .book:hover{
     -fx-effect: dropshadow(three-pass-box,#8c8c8c, 10.0,0, 0, 0);
 }
+.coderYt{
+    -fx-font-size: 15px;
+}
+/*.tree-view .label{
+    -fx-graphic: url("../img/wenjianjia.png");
+}*/
 

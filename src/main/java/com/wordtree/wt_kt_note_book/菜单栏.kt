@@ -1,10 +1,17 @@
 package com.wordtree.wt_kt_note_book
 
+import cn.hutool.core.lang.tree.Tree
 import com.wordtree.wt_config.Index_Config
+import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.event.EventHandler
+import javafx.scene.control.Label
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuItem
+import javafx.scene.control.TreeItem
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.stage.DirectoryChooser
+import java.io.File
 
 private val 保存 = MenuItem(Index_Config.FileMenu_保存)
 private val 打开文件 = MenuItem(Index_Config.FileMenu_打开)
@@ -31,9 +38,11 @@ private fun 菜单栏操作() {
         chooser.title = "请选择文件夹"
         val fileChoose = chooser.showDialog(topBar.scene.window)
         if (fileChoose != null) {
-            file = fileChoose
-            fileItemRoot.value.text = file!!.name
-            文件树()
+            val file = fileChoose
+            val treeItem = TreeItem<Label>()
+            treeItem.value = Label(file.name).apply { graphic = ImageView(Image(R.ImageUrl("FileSet"),14.0,14.0,true,true)) }
+            添加一个文件节支(file.listFiles(), treeItem)
+            fileTreeView.root = treeItem
         }
     }
 }

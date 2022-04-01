@@ -1,6 +1,9 @@
 package com.wordtree.wt_kt_note_book
 
+import cn.hutool.core.io.FileUtil
 import javafx.event.EventHandler
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyCodeCombination
 import javafx.stage.Stage
 import org.fxmisc.flowless.VirtualizedScrollPane
 import org.fxmisc.richtext.LineNumberFactory
@@ -15,7 +18,6 @@ fun 内容区() {
             stage.title = "*"
         }
     }
-
     codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
     //这个是tab文件操作部分
     centerPane.apply {

@@ -53,3 +53,7 @@ var cursorPosition: HashMap<String, Any> = HashMap() //每一个tab文本都有�
 var nowFile: File? = null
 var indexFileName = SimpleIntegerProperty(0)
 var fileBaocun = 0
+
+fun cssInit(){
+    codeArea.styleClass.addAll("coder","coderYt")
+}

@@ -15,6 +15,7 @@ module com.wordtree {
     requires org.fxmisc.richtext;
     requires com.google.gson;
     requires org.fxmisc.flowless;
+    requires hutool.all;
 
     opens com.wordtree to javafx.fxml;
     opens com.wordtree.wt_kt_module to javafx.fxml;
