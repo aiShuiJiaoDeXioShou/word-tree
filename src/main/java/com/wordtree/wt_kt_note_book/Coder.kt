@@ -12,7 +12,6 @@ import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyCodeCombination
 import javafx.stage.Stage
 import org.kordamp.bootstrapfx.BootstrapFX
-import java.nio.charset.Charset
 
 
 class Coder() : Application() {

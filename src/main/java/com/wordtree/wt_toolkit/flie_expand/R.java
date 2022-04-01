@@ -48,7 +48,7 @@ public class R {
         InputStreamReader reader = null;
         Object param = null;
         try {
-            reader = new InputStreamReader(new FileInputStream(Main.class.getClassLoader().getResource("setting.json").getFile()));
+            reader = new InputStreamReader(new FileInputStream(Main.class.getClassLoader().getResource("setting.json").getFile()),"UTF-8");
             HashMap<String, Object> hashMap = gson.fromJson(reader, HashMap.class);
             param = hashMap.get(key);
         } catch (IOException e) {

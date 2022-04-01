@@ -8,12 +8,12 @@ fun 左侧项目栏() {
     val but = Button("项".plus("\n目")).apply {
         prefWidth = 30.0
         onMouseClicked = EventHandler {
-            if (!fileViewOpen) {
+            fileViewOpen = if (!fileViewOpen) {
                 centerPane.setDividerPosition(0, 0.2)
-                fileViewOpen = true
+                true
             } else {
                 centerPane.setDividerPosition(0, 0.0)
-                fileViewOpen = false
+                false
             }
         }
         prefHeight = 60.0

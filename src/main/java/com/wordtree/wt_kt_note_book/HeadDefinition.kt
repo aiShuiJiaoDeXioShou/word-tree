@@ -32,7 +32,7 @@ val fileTab = VBox()//放置tab和它文本编辑器的盒子
 val ImageSize = R.textName("System.User.Image.Size").toDouble()
 val gradeBox = HBox()
 val grade = Label()
-val tabSeed = TabPane()
+
 
 //用户的名称签名
 val textUserBox = VBox()
@@ -40,7 +40,7 @@ val nameBox = HBox()
 val editBut = Label()
 val pi2 = ProgressBar(0.6)//这个对象是进度条
 val name = Label()
-val motto = TextField(Index_Config.App_User_Motto)
+val motto = TextField()
 
 //显示用户进度以及用户的插件箱
 val manuscriptBox = VBox()
