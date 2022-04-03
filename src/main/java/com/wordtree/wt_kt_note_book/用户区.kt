@@ -1,10 +1,13 @@
 package com.wordtree.wt_kt_note_book
 
-import cn.hutool.core.lang.hash.Hash
 import com.wordtree.wt_kt_module.CommonComponents
 import com.wordtree.wt_kt_module.assembly.BookBox
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
 import com.wordtree.wt_toolkit.flie_expand.R
+import eu.hansolo.tilesfx.Tile
+import eu.hansolo.tilesfx.TileBuilder
+import eu.hansolo.tilesfx.chart.ChartData
+import eu.hansolo.tilesfx.chart.ChartDataBuilder
 import javafx.application.Platform
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
@@ -12,17 +15,18 @@ import javafx.beans.property.StringProperty
 import javafx.event.EventHandler
 import javafx.geometry.Insets
 import javafx.geometry.Pos
+import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.*
+import javafx.scene.paint.Color
 import javafx.scene.paint.ImagePattern
 import javafx.scene.paint.Paint
 import javafx.scene.shape.Circle
-import java.lang.NullPointerException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 //用户名片的box盒子
 private val userLineBox = HBox()
@@ -31,10 +35,17 @@ private val userLineBox = HBox()
 private val userOperation = VBox()//用户操作部分父类盒子
 private val userRecord = VBox() //第一个切换盒子
 private val 用户操作面板tab栏 = TabPane()
-val userOperationBox = ArrayList<Pane>() //如果要创建一个新的面板很简单，只需要往这个盒子里面和setting.json添加相应的数据就行了
+val userOperationBox = ArrayList<Node>() //如果要创建一个新的面板很简单，只需要往这个盒子里面和setting.json添加相应的数据就行了
 
 //书架部分
 private val userBookshelf = VBox()
+private const val TILE_WIDTH = 150.0
+private const val TILE_HEIGHT = 250.0
+private var chartData1: ChartData? = null
+private var chartData2: ChartData? = null
+private var chartData3: ChartData? = null
+private var chartData4: ChartData? = null
+private var tile :Tile? = null
 
 
 fun 属于用户的操作逻辑区域() {
@@ -44,9 +55,31 @@ fun 属于用户的操作逻辑区域() {
         minWidth = 0.0
         children.addAll(用户名片部分(),用户操作部分(),书架())
         userOperationBox.add(userRecord)
+        userOperationBox.add(统计用户信息()!!)
     }
 }
-
+private fun 统计用户信息(): Tile? {
+    chartData1 = ChartData("Item 1", 24.0, Tile.GREEN)
+    chartData1!!.textColor = Color.BLACK
+    chartData2 = ChartData("Item 2", 10.0, Tile.BLUE)
+    chartData2!!.textColor = Color.BLACK
+    chartData3 = ChartData("Item 3", 12.0, Tile.RED)
+    chartData3!!.textColor = Color.BLACK
+    chartData4 = ChartData("Item 3", 12.0, Tile.DARK_BLUE)
+    chartData4!!.textColor = Color.BLACK
+    tile = TileBuilder.create()
+        .skinType(Tile.SkinType.DONUT_CHART)
+        .prefSize(TILE_WIDTH, TILE_HEIGHT)
+        .title("DonutChart Tile")
+        .text("Some text")
+        .textVisible(false)
+        .chartData(chartData1, chartData2, chartData3, chartData4)
+        .backgroundColor(Color.WHITE)
+        .textColor(Color.BLACK)
+        .titleColor(Color.BLACK)
+        .build()
+    return tile
+}
 private fun 用户名片部分():HBox{
     //用户的名片部分,这里面涉及到布局美化
     userLineBox.apply {
