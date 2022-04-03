@@ -14,7 +14,7 @@ import java.io.File
 
 //python脚本执行器
 class PythonRun() : Stage() {
-    val root = VBox()
+    val root = VBox().apply { prefWidth = 830.0;prefHeight = 750.0 }
     private val label1 = Label("请输入python解释器所在的文件夹")
     private val label2 = Label("请输入python脚本所在的文件夹")
     private val pythonExE = TextField()
@@ -42,8 +42,6 @@ class PythonRun() : Stage() {
     fun inits(resource:String) {
         bgImage(root,resource, this)
         this.scene = Scene(root)
-        this.width = 600.0
-        this.height = 800.0
     }
 
     fun controller() {

@@ -15,18 +15,23 @@ import org.kordamp.bootstrapfx.BootstrapFX
 
 
 class Coder() : Application() {
+    private var bol = true
+    private val showStage = Stage()
     override fun start(primaryStage: Stage) {
         初始化文件(primaryStage)
     }
 
     fun show() {
-        Thread {
-            val stage = Stage()
-            初始化文件(stage)
-        }.run()
+        if (bol){
+            Thread {
+                初始化文件(showStage)
+            }.run()
+        }
+        showStage.show()
     }
 
     private fun 初始化文件(stage: Stage) {
+        bol = false
         stage.scene = Scene(root).apply {
             stylesheets.add(BootstrapFX.bootstrapFXStylesheet())
             stylesheets.add("static/css/disanfan.css")
@@ -40,7 +45,6 @@ class Coder() : Application() {
         布局()
         cssInit()
         全局监听事件()
-        stage.show()
     }
 
     private fun 快捷键(scene: Scene) {

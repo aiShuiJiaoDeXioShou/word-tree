@@ -3,7 +3,6 @@ package com.wordtree.wt_kt_module
 import com.wordtree.wt_config.Index_Config
 import com.wordtree.wt_kt_note_book.Coder
 import com.wordtree.wt_module.writing.Win
-import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.scene.Scene
@@ -21,20 +20,18 @@ class TotalPage : Stage() {
     //定义头部公共部分
     private val rootPane = BorderPane()
     private val treeRoot = TreeItem<String>()
-    private val label = VBox()
+    private val label = VBox().apply { prefHeight = 600.0;prefWidth = 1000.0 }
     private val treeImage = TreeItem("图片")
     private val file = File(this.javaClass.getClassLoader().getResource("static/img").toURI())
     private val fileList = file.listFiles()
     private val note = Note()
-    private val disan = Coder()
+    private val coder = Coder()
 
     init {
         layout()
         this.title = Index_Config.APP_NAME
         this.scene = Scene(rootPane)
         this.scene.stylesheets.add("static/css/disanfan.css")
-        this.width = R.textName("ADMIN_WIDTH").toDouble()
-        this.height = R.textName("ADMIN_HEIGHT").toDouble()
         this.icons.add(Image(Index_Config.APP_ICON))
         //设置当这个窗口关闭之后，关闭整个程序
         this.onCloseRequest = EventHandler {
@@ -52,19 +49,41 @@ class TotalPage : Stage() {
         //这个是左界面的编写
         navigation()
         val treeView = TreeView(treeRoot)
-
         treeView.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
+            val stage = rootPane.scene.window as Stage
             when (newValue.value) {
-                "图片" -> rootPane.center = label
-                "计算机" -> rootPane.center = computer.box
-                "pythonRun" -> rootPane.center = pythonRun.root
+                "图片" -> {
+                    rootPane.center = label;
+                    stage.width = label.width
+                    stage.height = label.width
+                }
+                "计算机" -> {
+                    rootPane.center = computer.box
+                    stage.width = computer.box.width
+                    stage.height = computer.box.height
+                }
+                "pythonRun" -> {
+                    rootPane.center = pythonRun.root
+                    stage.width = pythonRun.root.prefWidth
+                    stage.height = pythonRun.root.prefHeight
+                }
                 "管理系统" -> Win.run()
                 "writeUi" -> {
                     Tips("注意这个是控制台应用").show()
                     //WriterUI().run()
                 }
-                "Note" -> rootPane.center = note.note()
-                "第三方编辑器" -> disan.show()
+                "Note" -> {
+                    rootPane.center = note.note()
+                    stage.width = note.note().prefWidth
+                    stage.height = note.note().prefHeight
+                }
+                "第三方编辑器" -> {
+                    Thread{
+                        Platform.runLater {
+                            coder.show()
+                        }
+                    }.start()
+                }
             }
             for (file in fileList) {
                 if (file.name == newValue?.value) {

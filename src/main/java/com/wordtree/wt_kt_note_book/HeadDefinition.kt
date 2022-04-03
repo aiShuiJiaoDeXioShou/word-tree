@@ -18,7 +18,7 @@ val USER_WIDTH = 340.0
 val centerPane = SplitPane()
 
 //左侧文件树
-var file: File? = File("D:\\3.Node.js\\项目以及学习目录\\JavaScript学习") //这个是整个编辑器的母文件夹
+var file: File? = File("D:\\ytjava2\\奥特曼写作") //这个是整个编辑器的母文件夹
 var fileItemRoot = TreeItem<Label>(Label(file!!.name))
 val fileTreeView = TreeView(fileItemRoot)
 var fileViewOpen = true
