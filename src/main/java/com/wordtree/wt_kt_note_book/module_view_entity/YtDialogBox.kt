@@ -1,14 +1,13 @@
-package com.wordtree.wt_kt_note_book
+package com.wordtree.wt_kt_note_book.module_view_entity
 
-import com.wordtree.wt_kt_note_book.module_view_entity.SettingBase
-import javafx.scene.control.Button
+import javafx.scene.Node
 import javafx.scene.control.ButtonBar
 import javafx.scene.control.ButtonType
 import java.util.*
 
-class 设置面板():SettingBase(
-    AlertType.NONE, Button("取消"),
-    ButtonType("不保存", ButtonBar.ButtonData.APPLY),
+class YtDialogBox(content: Node):SettingBase(
+    AlertType.NONE, content,
+    ButtonType("应用", ButtonBar.ButtonData.APPLY),
     ButtonType("保存", ButtonBar.ButtonData.YES),
     ButtonType("取消", ButtonBar.ButtonData.NO)
 ) {

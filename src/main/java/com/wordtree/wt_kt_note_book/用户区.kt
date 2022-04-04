@@ -7,7 +7,6 @@ import com.wordtree.wt_toolkit.flie_expand.R
 import eu.hansolo.tilesfx.Tile
 import eu.hansolo.tilesfx.TileBuilder
 import eu.hansolo.tilesfx.chart.ChartData
-import eu.hansolo.tilesfx.chart.ChartDataBuilder
 import javafx.application.Platform
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
@@ -196,14 +195,14 @@ private fun 用户名片栏切换_常用工具箱():VBox{
 
                 //提示用户当前鼠标停留的位置是什么用法
                 val components = CommonComponents()
-                components.simplePromptBox("金币", toolboxItem1)
-                components.simplePromptBox("金币", toolboxItem2)
-                components.simplePromptBox("金币", toolboxItem3)
-                components.simplePromptBox("金币", toolboxItem4)
-                components.simplePromptBox("金币", toolboxItem5)
-                components.simplePromptBox("金币", toolboxItem6)
-                components.simplePromptBox("金币", toolboxItem7)
-                components.simplePromptBox("金币", toolboxItem8)
+                components.simpleToolTip("金币", toolboxItem1)
+                components.simpleToolTip("金币", toolboxItem2)
+                components.simpleToolTip("金币", toolboxItem3)
+                components.simpleToolTip("金币", toolboxItem4)
+                components.simpleToolTip("金币", toolboxItem5)
+                components.simpleToolTip("金币", toolboxItem6)
+                components.simpleToolTip("金币", toolboxItem7)
+                components.simpleToolTip("金币", toolboxItem8)
             }
         )
     }

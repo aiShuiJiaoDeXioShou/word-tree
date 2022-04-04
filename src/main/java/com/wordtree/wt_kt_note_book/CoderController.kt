@@ -48,7 +48,6 @@ fun 添加一个文件节支(listFile: Array<File>, itemUi: TreeItem<Label>) {
 }
 
 fun 节点的右击事件(item: TreeItem<Label>, file: File) {
-
     if (file.isFile) {
         文件操作(item, file)
     } else if (file.isDirectory) {
@@ -88,7 +87,6 @@ fun 文件操作(item: TreeItem<Label>, file: File) {
             val pth = file.parent + "/" + dialog.editor.text
             val file1 = File(pth)
             val renameTo = file.renameTo(file1)
-            println(renameTo)
             if (renameTo) {
                 nowFileAbc = file1
                 item.value.textProperty().set(dialog.editor.text)
@@ -107,7 +105,7 @@ fun 文件操作(item: TreeItem<Label>, file: File) {
         if (it.button == MouseButton.SECONDARY) {
             node.contextMenu = contextMenu
         } else if (it.clickCount >= 2) {
-            文件树点击事件对象(nowFileAbc, node)
+            文件树点击事件对象(nowFileAbc,node)
         }
     }
 }
@@ -146,7 +144,6 @@ fun 文件夹操作(item: TreeItem<Label>, file: File) {
         if (showAndWait.isPresent) {
             val pth = file.parent + "/" + dialog.editor.text
             val file1 = File(pth)
-            val listPth = file.list()
             val renameTo = file.renameTo(file1)
             if (renameTo) {
                 if (com.wordtree.wt_kt_note_book.file != null) {
@@ -171,7 +168,6 @@ fun 文件夹操作(item: TreeItem<Label>, file: File) {
         val dialog = TextInputDialog()
         val showAndWait = dialog.showAndWait()
         if (showAndWait.isPresent) {
-            println(dialog.editor.text)
             val treeItem = TreeItem<Label>()
             val label = Label(dialog.editor.text)
             treeItem.value = label
@@ -236,7 +232,6 @@ fun tab标签的切换与文本区光标的聚焦(tabPane: TabPane, codeAreaRequ
     }
     //当tab标签发生改变的时候，将光标位置聚焦到上一次光标位置
     tabPane.selectionModel.selectedItemProperty().addListener { _, _, new ->
-//                cursorPosition.get(nowFile?.path)?.let { position -> codeAreaRequest.moveTo(position as Int);codeAreaRequest.showParagraphInViewport(position as Int) }
         if (new != null) {
             Platform.runLater { codeAreaRequest.requestFocus() }
         }
@@ -244,7 +239,6 @@ fun tab标签的切换与文本区光标的聚焦(tabPane: TabPane, codeAreaRequ
     }
     //关闭标签的时候清空整个文本区，删除cursorText里面的值,必须要放在最后这个位置
     tab.onCloseRequest = EventHandler {
-//            if (cursorPosition.get(file.path.plus("change_times")) as Int > 1){
         if (fileBaocun > 1) {
             val alert = Alert(
                 Alert.AlertType.CONFIRMATION, "", ButtonType("不保存", ButtonBar.ButtonData.APPLY),
@@ -301,11 +295,13 @@ fun 显示文本到编辑区(file: File, textArea: CodeArea) {
 }
 
 fun 保存文件() {
-    val writer = BufferedWriter(OutputStreamWriter(FileOutputStream(nowFile), "utf-8"))
-    writer.write(codeArea.text)
-    val stage = root.scene.window as Stage
-    stage.title = ""
-    writer.close()
+    if (nowFile!=null){
+        val writer = BufferedWriter(OutputStreamWriter(FileOutputStream(nowFile), "utf-8"))
+        writer.write(codeArea.text)
+        val stage = root.scene.window as Stage
+        stage.title = ""
+        writer.close()
+    }
 }
 
 fun 文件树(treeItem:TreeItem<Label>?=null, listFile: Array<File>?=null) {

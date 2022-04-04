@@ -47,8 +47,6 @@ val manuscriptBox = VBox()
 val userSpeedProgressBox = VBox()
 
 //编辑器当前文本对象
-var row = 0
-var col = 0
 var cursorPosition: HashMap<String, Any> = HashMap() //每一个tab文本都有对应的自己的光标值
 var nowFile: File? = null
 var indexFileName = SimpleIntegerProperty(0)

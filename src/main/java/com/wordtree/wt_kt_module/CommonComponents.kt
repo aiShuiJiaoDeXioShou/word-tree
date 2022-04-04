@@ -2,7 +2,8 @@ package com.wordtree.wt_kt_module
 
 import javafx.event.EventHandler
 import javafx.scene.Node
-import javafx.scene.control.Label
+import javafx.scene.control.*
+import javafx.stage.Window
 import org.controlsfx.control.PopOver
 
 class CommonComponents {
@@ -15,5 +16,10 @@ class CommonComponents {
         node.onMouseExited = EventHandler {
             popOver.hide()
         }
+    }
+    fun simpleToolTip(str: String,node: Control){
+        val tooltip = Tooltip(str)
+        tooltip.contentDisplay = ContentDisplay.TOP
+       node.tooltip = tooltip
     }
 }

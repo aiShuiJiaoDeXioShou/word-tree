@@ -19,6 +19,7 @@ class Coder() : Application() {
     private val showStage = Stage()
     override fun start(primaryStage: Stage) {
         初始化文件(primaryStage)
+        primaryStage.show()
     }
 
     fun show() {

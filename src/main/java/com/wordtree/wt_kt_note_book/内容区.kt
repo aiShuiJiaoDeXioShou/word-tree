@@ -18,7 +18,7 @@ fun 内容区() {
             stage.title = "*"
         }
     }
-    codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+    codeArea.paragraphGraphicFactory = LineNumberFactory.get(codeArea);
     //这个是tab文件操作部分
     centerPane.apply {
         codeArea.prefHeightProperty().bind(root.scene.window.heightProperty().add(-100))

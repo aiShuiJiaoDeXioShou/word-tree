@@ -53,6 +53,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation 'cn.hutool:hutool-all:5.8.0.M1'
+    implementation 'com.jfoenix:jfoenix:9.0.10' //javafx的一个集大成的UI组件
 }
 
 test {
