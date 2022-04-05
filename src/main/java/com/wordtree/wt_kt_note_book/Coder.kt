@@ -6,11 +6,15 @@ import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.scene.Scene
+import javafx.scene.control.Label
+import javafx.scene.control.Tooltip
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyCodeCombination
+import javafx.scene.layout.VBox
 import javafx.stage.Stage
+import org.controlsfx.control.PopOver
 import org.kordamp.bootstrapfx.BootstrapFX
 
 
@@ -62,12 +66,9 @@ class Coder() : Application() {
     private fun 布局() {
         //这里是上界面menu的内容
         菜单栏()
-
         //用户部分布局
         属于用户的操作逻辑区域()
-
         //这个是文件树部分
-        println(R.ImageUrl("FileSet"))
         fileItemRoot.graphic = ImageView(Image(R.ImageUrl("FileSet"), 15.0, 15.0, true, true))
         文件夹操作(fileItemRoot, file!!)
         文件树()
@@ -75,6 +76,13 @@ class Coder() : Application() {
         左侧项目栏()
         //确定内容区布局,包过文件树,文件tab,和用户box
         centerPane.items.addAll(fileTreeView, fileTab, userBox)
+        //下面进度条
+        进度条()
+    }
+
+    private fun 进度条(){
+        root.bottom = bar.apply { prefWidth=300.0;prefHeight=10.0 }
+        bar.isVisible = false
     }
 
     private fun 全局监听事件(){

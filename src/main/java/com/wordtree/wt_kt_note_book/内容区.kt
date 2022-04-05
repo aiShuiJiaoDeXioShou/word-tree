@@ -1,9 +1,6 @@
 package com.wordtree.wt_kt_note_book
 
-import cn.hutool.core.io.FileUtil
 import javafx.event.EventHandler
-import javafx.scene.input.KeyCode
-import javafx.scene.input.KeyCodeCombination
 import javafx.stage.Stage
 import org.fxmisc.flowless.VirtualizedScrollPane
 import org.fxmisc.richtext.LineNumberFactory

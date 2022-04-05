@@ -33,7 +33,7 @@ fun 菜单栏() {
     }
 
     topBar.apply {
-        padding = Insets(5.0)
+        padding = Insets(2.0)
         styleClass.add("zkh_MenuBar")
         menus.addAll(menu,设置菜单栏)//将menu放到菜单栏当中
     }

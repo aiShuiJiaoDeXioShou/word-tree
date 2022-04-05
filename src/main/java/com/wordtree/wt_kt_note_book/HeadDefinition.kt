@@ -1,6 +1,5 @@
 package com.wordtree.wt_kt_note_book
 
-import com.wordtree.wt_config.Index_Config
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.scene.control.*
@@ -18,7 +17,7 @@ val USER_WIDTH = 340.0
 val centerPane = SplitPane()
 
 //左侧文件树
-var file: File? = File("D:\\ytjava2\\奥特曼写作") //这个是整个编辑器的母文件夹
+var file: File? = File("D:\\1.java\\worspace-java\\Vue3\\study") //这个是整个编辑器的母文件夹
 var fileItemRoot = TreeItem<Label>(Label(file!!.name))
 val fileTreeView = TreeView(fileItemRoot)
 var fileViewOpen = true
@@ -51,6 +50,8 @@ var cursorPosition: HashMap<String, Any> = HashMap() //每一个tab文本都有�
 var nowFile: File? = null
 var indexFileName = SimpleIntegerProperty(0)
 var fileBaocun = 0
+
+val bar = ProgressBar(0.0)
 
 fun cssInit(){
     codeArea.styleClass.addAll("coder","coderYt")

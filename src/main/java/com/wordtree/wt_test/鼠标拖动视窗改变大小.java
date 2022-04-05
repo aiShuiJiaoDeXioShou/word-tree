@@ -89,47 +89,28 @@ public class 鼠标拖动视窗改变大小 extends Application {
                 }
             }
         });
-        btnClose.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                primaryStage.close();
+        btnClose.setOnAction(event -> primaryStage.close());
+        primaryStage.xProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !isMax) {
+                x = newValue.doubleValue();
             }
         });
-        primaryStage.xProperty().addListener(new ChangeListener<Number>() {
 
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (newValue != null && !isMax) {
-                    x = newValue.doubleValue();
-                }
+        primaryStage.yProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !isMax) {
+                y = newValue.doubleValue();
             }
         });
-        primaryStage.yProperty().addListener(new ChangeListener<Number>() {
 
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (newValue != null && !isMax) {
-                    y = newValue.doubleValue();
-                }
+        primaryStage.widthProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !isMax) {
+                width = newValue.doubleValue();
             }
         });
-        primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
 
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (newValue != null && !isMax) {
-                    width = newValue.doubleValue();
-                }
-            }
-        });
-        primaryStage.heightProperty().addListener(new ChangeListener<Number>() {
-
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (newValue != null && !isMax) {
-                    height = newValue.doubleValue();
-                }
+        primaryStage.heightProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !isMax) {
+                height = newValue.doubleValue();
             }
         });
 

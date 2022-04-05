@@ -1,50 +1,59 @@
 package com.wordtree.wt_kt_note_book
 
+import com.wordtree.wt_kt_module.CommonComponents
+import com.wordtree.wt_kt_note_book.module_view_entity.TaskPromptBar
+import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Platform
+import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.concurrent.Task
 import javafx.event.EventHandler
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseButton
 import javafx.stage.Stage
+import org.controlsfx.control.PopOver
 import org.fxmisc.richtext.CodeArea
 import java.io.*
-
-fun 添加一个文件节支(listFile: Array<File>, itemUi: TreeItem<Label>) {
+private var filesNumber = SimpleDoubleProperty(0.0)
+private var fileSavings = 0.0
+fun 添加一个文件节支(listFile: Array<File>, itemUi: TreeItem<Label>, count: (num:Double)->Unit = {}) {
+    val commonComponents = CommonComponents()
+    commonComponents.simplePromptBox("正在加载文件，请稍等....", bar)
+    bar.isVisible = true
+    //遍历所有的文件路径
     for (file in listFile) {
+        filesNumber.set(filesNumber.add(1.0).get())
+        bar.progress = filesNumber.get()/fileSavings
+        //判断该路径是否为文件夹
         if (file.isDirectory) {
             val label = Label(file.name)
-            label.graphic = ImageView(
-                Image(
-                    R.ImageUrl("FileSetIcon"),
-                    15.0,
-                    15.0,
-                    true,
-                    true
-                )
-            )
+            label.graphic = YtIcon(R.ImageUrl("FileSetIcon"))
             val item = TreeItem(label)
             添加一个文件节支(file.listFiles(), item)
             节点的右击事件(item, file)
             itemUi.children.add(item)
         } else {
             val label = Label(file.name)
-            label.graphic = ImageView(
-                Image(
-                    R.ImageUrl("FileIcon"),
-                    15.0,
-                    15.0,
-                    true,
-                    true
-                )
-            )
+            label.graphic = YtIcon( R.ImageUrl("FileIcon"))
             val item = TreeItem(label)
             节点的右击事件(item, file)
             itemUi.children.add(item)
         }
     }
+}
+
+fun 计算所有的文件节支(listFile: Array<File>):Double{
+    for (file in listFile) {
+        fileSavings +=  1
+        //判断该路径是否为文件夹
+        if (file.isDirectory) {
+            计算所有的文件节支(file.listFiles())
+        }
+    }
+    return fileSavings
 }
 
 fun 节点的右击事件(item: TreeItem<Label>, file: File) {
@@ -308,10 +317,26 @@ fun 文件树(treeItem:TreeItem<Label>?=null, listFile: Array<File>?=null) {
     //这个是文件树部分
     fileTreeView.apply {
         if (file != null) {
-            val listFiles = file!!.listFiles()
-            添加一个文件节支(listFiles, fileItemRoot)
+            val fileTreeService = FileTreeService(file!!)
+            val taskPromptBar = TaskPromptBar(fileTreeService)
         }else if(treeItem != null){
             添加一个文件节支(listFile!!, treeItem)
         }
     }
+}
+
+class FileTreeService(file: File):Task<Double>(){
+    override fun call(): Double {
+        filesNumber.set(0.0)
+        fileSavings = 0.0
+        val listFiles = file!!.listFiles()
+        val nums = 计算所有的文件节支(listFiles)
+        添加一个文件节支(listFiles, fileItemRoot){
+            this.updateProgress(it,nums)
+        }
+//        popOver.hide()
+        bar.isVisible = false
+        return 0.0
+    }
+
 }
