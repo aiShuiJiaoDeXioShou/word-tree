@@ -57,9 +57,11 @@ class Coder() : Application() {
     private fun 快捷键(scene: Scene) {
         val codeCombination = KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN)
         scene.accelerators.put(codeCombination) {
-            if ((codeArea.scene.window as Stage).title == "*"&&nowFile != null){
-                FileUtil.writeString(codeArea.text,nowFile!!,"utf-8")
-                (codeArea.scene.window as Stage).title = ""
+            val stage = root.scene.window as Stage
+            if (stage.title == "*"&&nowFile != null){
+                val myCode = globalTab!!.coderArea
+                FileUtil.writeString(myCode.text,nowFile!!,"utf-8")
+                stage.title = ""
             }
         }
 
@@ -68,15 +70,20 @@ class Coder() : Application() {
     private fun 布局() {
         //这里是上界面menu的内容
         菜单栏()
+
         //用户部分布局
         属于用户的操作逻辑区域()
+
         //这个是文件树部分
         fileItemRoot.graphic = YtIcon(R.ImageUrl2("FileSet"))
         文件树()
+
         内容区()
+
         左侧项目栏()
         //确定内容区布局,包过文件树,文件tab,和用户box
         centerPane.items.addAll(fileTreeView, fileTab, userBox)
+
         //下面进度条
         进度条()
     }

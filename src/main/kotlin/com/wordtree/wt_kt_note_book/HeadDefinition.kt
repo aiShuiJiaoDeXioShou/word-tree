@@ -1,5 +1,6 @@
 package com.wordtree.wt_kt_note_book
 
+import com.wordtree.wt_kt_note_book.module_view_entity.MyTab
 import com.wordtree.wt_kt_note_book.module_view_entity.YtTreeItem
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.beans.property.SimpleIntegerProperty
@@ -53,6 +54,7 @@ var indexFileName = SimpleIntegerProperty(0)
 var fileBaocun = 0
 
 val bar = ProgressBar(0.0)
+var globalTab:MyTab? = null
 
 fun cssInit(){
     codeArea.styleClass.addAll("coder","coderYt")

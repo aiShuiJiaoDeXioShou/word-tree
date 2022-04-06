@@ -2,7 +2,6 @@ package com.wordtree.wt_kt_note_book.module_view_entity
 
 import com.wordtree.wt_kt_note_book.*
 import com.wordtree.wt_toolkit.flie_expand.R
-import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.scene.control.*
 import javafx.scene.image.Image
@@ -156,7 +155,7 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
                 treeItem.value = label
                 val newFile1 = File(file.path.plus("/${dialog.editor.text}"))
                 newFile1.createNewFile()
-                fileSetOperations(treeItem, newFile1)
+                fileOperations(treeItem, newFile1)
                 item.children.add(treeItem)
             }
         }
@@ -172,14 +171,22 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
 
     //文件树的点击事件
     private fun fileTreeClickEvent(file: File) {
-        if (cursorId.indexOf(file.path) == -1) {
-            val iconText = SimpleStringProperty("")
-            cursorPosition.put(file.path.plus("icon_text"), iconText as Any)
-            tab标签的切换与文本区光标的聚焦(tabPane, codeArea, file)
-        } else {
-            val filter = tabPane.tabs.filter { it.id == file.path }
-            tabPane.selectionModel.select(filter[0])
+        if (tabPane.tabs.size != 0){
+            val filterTab = tabPane.tabs.filter { it.id == file.path }
+            if (filterTab.isEmpty()){
+                //tab标签的切换与文本区光标的聚焦(tabPane, codeArea, file)
+                val myTab = MyTab(file)
+                tabPane.tabs.add(myTab)
+                tabPane.selectionModel.select(filterTab[0])
+                globalTab = myTab
+            }else{
+                tabPane.selectionModel.select(filterTab[0])
+                globalTab = filterTab[0] as MyTab?
+            }
+        }else{
+            val myTab = MyTab(file)
+            tabPane.tabs.add(myTab)
+            globalTab = myTab
         }
     }
-
 }

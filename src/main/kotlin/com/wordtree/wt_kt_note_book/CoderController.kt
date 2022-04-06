@@ -56,20 +56,6 @@ fun 计算所有的文件节支(listFile: Array<File>):Double{
     return fileSavings
 }
 
-fun 记录光标位置() {
-    var caretPosition = 0
-    try {
-        if (cursorPosition.get(nowFile!!.path) != null) {
-            caretPosition = codeArea.caretPosition
-            cursorPosition.put(nowFile!!.path, caretPosition as Any)
-        } else {
-            cursorPosition.set(nowFile!!.path, caretPosition as Any)
-        }
-    } catch (e: Exception) {
-        println("空个鬼，我不是判断了吗")
-    }
-
-}
 
 fun tab标签的切换与文本区光标的聚焦(tabPane: TabPane, codeAreaRequest: CodeArea, file: File) {
     //添加头部标签
@@ -83,8 +69,6 @@ fun tab标签的切换与文本区光标的聚焦(tabPane: TabPane, codeAreaRequ
             保存文件()
         }
         codeArea.clear()
-        println(file.name + "@@@")
-        println(file.isFile)
         if (file.isFile) {
             显示文本到编辑区(file, codeAreaRequest)
         }
