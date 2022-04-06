@@ -3,6 +3,7 @@ package com.wordtree.wt_kt_note_book
 import com.wordtree.wt_kt_module.CommonComponents
 import com.wordtree.wt_kt_note_book.module_view_entity.TaskPromptBar
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
+import com.wordtree.wt_kt_note_book.module_view_entity.YtTreeItem
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Platform
 import javafx.beans.property.SimpleDoubleProperty
@@ -29,19 +30,31 @@ fun 添加一个文件节支(listFile: Array<File>, itemUi: TreeItem<Label>, cou
         bar.progress = filesNumber.get()/fileSavings
         //判断该路径是否为文件夹
         if (file.isDirectory) {
-            val label = Label(file.name)
-            label.graphic = YtIcon(R.ImageUrl2("FileSetIcon"))
-            val item = TreeItem(label)
+            val item = YtTreeItem(file)
             添加一个文件节支(file.listFiles(), item)
-            节点的右击事件(item, file)
             itemUi.children.add(item)
         } else {
-            val label = Label(file.name)
-            label.graphic = YtIcon(R.ImageUrl2("FileIcon"))
-            val item = TreeItem(label)
-            节点的右击事件(item, file)
+            val item = YtTreeItem(file)
             itemUi.children.add(item)
         }
+    }
+}
+
+private fun low版添加(file: File,itemUi: TreeItem<Label>){
+    //判断该路径是否为文件夹
+    if (file.isDirectory) {
+        val label = Label(file.name)
+//            label.graphic = YtIcon(R.ImageUrl2("FileSetIcon"))
+        val item = TreeItem(label)
+        添加一个文件节支(file.listFiles(), item)
+        节点的右击事件(item, file)
+        itemUi.children.add(item)
+    } else {
+        val label = Label(file.name)
+//            label.graphic = YtIcon(R.ImageUrl2("FileIcon"))
+        val item = TreeItem(label)
+        节点的右击事件(item, file)
+        itemUi.children.add(item)
     }
 }
 
