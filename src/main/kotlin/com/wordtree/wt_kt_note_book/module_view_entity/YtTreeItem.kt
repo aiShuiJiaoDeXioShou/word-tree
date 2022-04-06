@@ -44,7 +44,7 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
                 treeItem.value = label
                 val newFile1 = File(file.parent.plus("/${dialog.editor.text}"))
                 newFile1.createNewFile()
-                节点的右击事件(treeItem, newFile1)
+                fileOperations(treeItem, newFile1)
                 item.parent.children.add(treeItem)
             }
         }
@@ -105,7 +105,7 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
                 val newFile1 = File(file.path.plus("/${dialog.editor.text}"))
                 val mkdir = newFile1.mkdirs()
                 if (mkdir) {
-                    节点的右击事件(treeItem, newFile1)
+                    fileSetOperations(treeItem, newFile1)
                     item.children.add(treeItem)
                 }
             }
@@ -134,12 +134,12 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
                             TreeItem<Label>(Label(com.wordtree.wt_kt_note_book.file!!.name))
                         fileItemRoot2.graphic =
                             ImageView(Image(R.ImageUrl2("FileSet"), 15.0, 15.0, true, true))
-                        添加一个文件节支(listFiles, fileItemRoot2)
+                        addFileThrift(listFiles, fileItemRoot2)
                         fileTreeView.root = fileItemRoot2
                         tabPane.tabs.clear()
                         cursorId = ArrayList<String>()
                         Thread {
-                            文件夹操作(fileItemRoot2, com.wordtree.wt_kt_note_book.file!!)
+                            fileSetOperations(fileItemRoot2, com.wordtree.wt_kt_note_book.file!!)
                         }.start()
                     }
                 }
@@ -156,7 +156,7 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
                 treeItem.value = label
                 val newFile1 = File(file.path.plus("/${dialog.editor.text}"))
                 newFile1.createNewFile()
-                节点的右击事件(treeItem, newFile1)
+                fileSetOperations(treeItem, newFile1)
                 item.children.add(treeItem)
             }
         }

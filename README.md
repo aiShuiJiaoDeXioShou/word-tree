@@ -44,7 +44,7 @@
   0.3.6 版本更新: 解决了一些小bug，重构了整个用户模块，更新设置窗口，实现了代码数据的分离，降低了耦合性 --4月1号  
   0.3.7 版本更新： 解决了大量的bug，使用maven重构了整个项目，现在项目能够独立打包发布，实现了任务系统，新增进度条，提示用户任务完成情况
 
-
+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
 ## 二O一.版本更新图表
 + 2.3.2版本
 ![img.png](src/main/resources/static/日记img/img2.png)

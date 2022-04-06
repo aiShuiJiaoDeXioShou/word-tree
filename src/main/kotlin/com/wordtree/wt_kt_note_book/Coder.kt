@@ -2,20 +2,16 @@ package com.wordtree.wt_kt_note_book
 
 import cn.hutool.core.io.FileUtil
 import com.wordtree.wt_config.Index_Config
+import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.scene.Scene
-import javafx.scene.control.Label
-import javafx.scene.control.Tooltip
 import javafx.scene.image.Image
-import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyCodeCombination
-import javafx.scene.layout.VBox
 import javafx.stage.Stage
-import org.controlsfx.control.PopOver
 import org.kordamp.bootstrapfx.BootstrapFX
 import kotlin.system.exitProcess
 
@@ -75,8 +71,7 @@ class Coder() : Application() {
         //用户部分布局
         属于用户的操作逻辑区域()
         //这个是文件树部分
-        fileItemRoot.graphic = ImageView(Image(R.ImageUrl2("FileSet"), 15.0, 15.0, true, true))
-        文件夹操作(fileItemRoot, file!!)
+        fileItemRoot.graphic = YtIcon(R.ImageUrl2("FileSet"))
         文件树()
         内容区()
         左侧项目栏()

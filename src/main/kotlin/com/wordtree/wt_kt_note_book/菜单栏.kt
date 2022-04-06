@@ -5,9 +5,10 @@ import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.event.EventHandler
 import javafx.geometry.Insets
-import javafx.scene.control.*
-import javafx.scene.image.Image
-import javafx.scene.image.ImageView
+import javafx.scene.control.Label
+import javafx.scene.control.Menu
+import javafx.scene.control.MenuItem
+import javafx.scene.control.TreeItem
 import javafx.stage.DirectoryChooser
 
 private val 保存 = MenuItem(Index_Config.FileMenu_保存)
@@ -57,7 +58,7 @@ private fun 菜单栏操作() {
             val file = fileChoose
             val treeItem = TreeItem<Label>()
             treeItem.value = Label(file.name).apply { graphic = YtIcon(R.ImageUrl2("FileSet")) }
-            添加一个文件节支(file.listFiles(), treeItem)
+            addFileThrift(file.listFiles(), treeItem)
             fileTreeView.root = treeItem
         }
     }

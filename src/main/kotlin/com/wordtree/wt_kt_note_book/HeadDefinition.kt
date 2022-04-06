@@ -1,5 +1,6 @@
 package com.wordtree.wt_kt_note_book
 
+import com.wordtree.wt_kt_note_book.module_view_entity.YtTreeItem
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.scene.control.*
@@ -18,7 +19,7 @@ val centerPane = SplitPane()
 
 //左侧文件树
 var file: File? = File("D:\\1.java\\worspace-java\\Vue3\\study") //这个是整个编辑器的母文件夹
-var fileItemRoot = TreeItem<Label>(Label(file!!.name))
+var fileItemRoot = YtTreeItem(file!!)
 val fileTreeView = TreeView(fileItemRoot)
 var fileViewOpen = true
 var cursorId = ArrayList<String>() //记录所有tab标签的id值
