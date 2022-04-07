@@ -16,9 +16,11 @@ module com.wordtree {
     requires com.google.gson;
     requires org.fxmisc.richtext;
     requires org.fxmisc.flowless;
+    requires reactfx;
 
     opens com.wordtree to javafx.fxml,hutool.all;
     exports com.wordtree;
     exports com.wordtree.wt_kt_note_book;
     exports com.wordtree.wt_test;
+    exports com.wordtree.wt_kt_note_book.module_view_entity;
 }

@@ -22,7 +22,7 @@ private var filesNumber = SimpleDoubleProperty(0.0)
 private var fileSavings = 0.0
 
 //为文件树添加一个文件枝节
-fun addFileThrift(listFile: Array<File>, itemUi: TreeItem<Label>, count: (num:Double)->Unit = {}) {
+fun addFileThrift(listFile: Array<File>, itemUi: TreeItem<Label>, count: (num:Double)->Unit = {}): TreeItem<Label>{
     //给予用户提示，正在执行的任务
     val com = CommonComponents()
     com.simplePromptBox("正在加载文件，请稍等....", bar)
@@ -45,8 +45,8 @@ fun addFileThrift(listFile: Array<File>, itemUi: TreeItem<Label>, count: (num:Do
             val item = YtTreeItem(file)
             itemUi.children.add(item)
         }
-
     }
+    return itemUi
 }
 
 fun 计算所有的文件节支(listFile: Array<File>):Double{

@@ -3,6 +3,7 @@ package com.wordtree.wt_kt_note_book.module_view_entity
 import com.wordtree.wt_kt_note_book.globalTab
 import com.wordtree.wt_kt_note_book.nowFile
 import com.wordtree.wt_kt_note_book.saveFile
+import com.wordtree.wt_toolkit.flie_expand.FileToolYt
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Platform
 import javafx.event.EventHandler
@@ -11,14 +12,24 @@ import javafx.scene.control.ButtonBar
 import javafx.scene.control.ButtonType
 import javafx.scene.control.Tab
 import org.fxmisc.flowless.VirtualizedScrollPane
+import org.fxmisc.richtext.CodeArea
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
 
-class MyTab(val file:File):Tab() {
+class MyTab(var file:File):Tab() {
     val coderArea = MyCode()
-    private val coder = VirtualizedScrollPane(coderArea)
+    private val coder = when(FileToolYt.getFileExtension(file)){
+        ".java"->JavaKeywordsAsyncDemo(coderArea).javaCodeArea()
+        ".xml"->VirtualizedScrollPane<CodeArea>(coderArea)
+        ".c"->VirtualizedScrollPane<CodeArea>(coderArea)
+        ".c++"->VirtualizedScrollPane<CodeArea>(coderArea)
+        ".txt"->VirtualizedScrollPane<CodeArea>(coderArea)
+        else -> {
+            VirtualizedScrollPane<CodeArea>(coderArea)
+        }
+    }
     init {
         this.idProperty().set(this.file.path)
         this.textProperty().set(this.file.name)
@@ -48,9 +59,12 @@ class MyTab(val file:File):Tab() {
         }
     }
 
-    fun rename(file: File){
+    fun rename(file: File):MyTab{
         this.idProperty().set(file.path)
         this.textProperty().set(file.name)
+        println("改变了文件路径")
+        this.file = file
+        return this
     }
 
     private fun displayText(){

@@ -44,6 +44,7 @@ class Coder() : Application() {
         stage.scene = Scene(root).apply {
             stylesheets.add(BootstrapFX.bootstrapFXStylesheet())
             stylesheets.add("static/css/disanfan.css")
+            stylesheets.add("java-keywords.css")
             快捷键(this)
         }
         stage.width = R.textName("ADMIN_WIDTH").toDouble()

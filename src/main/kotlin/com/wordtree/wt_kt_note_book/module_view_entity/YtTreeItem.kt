@@ -1,13 +1,12 @@
 package com.wordtree.wt_kt_note_book.module_view_entity
 
 import com.wordtree.wt_kt_note_book.*
-import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.event.EventHandler
 import javafx.scene.control.*
 import javafx.scene.input.MouseButton
 import java.io.File
 
-open class YtTreeItem(val file:File) :TreeItem<Label>(){
+open class YtTreeItem(var file:File) :TreeItem<Label>(){
     private val label = Label(file.name)
     init {
         this.value = label
@@ -56,20 +55,24 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
         val againFile = MenuItem("重命名")
         againFile.onAction = EventHandler {
             val dialog = TextInputDialog()
+            dialog.editor.text = file.name
             val showAndWait = dialog.showAndWait()
+
             if (showAndWait.isPresent) {
                 val pth = file.parent + "/" + dialog.editor.text
-                val file1 = File(pth)
-                val renameTo = file.renameTo(file1)
+                val renameFile = File(pth)
+
+                val renameTo = file.renameTo(renameFile)
                 if (renameTo) {
-                    nowFileAbc = file1
+
+                    nowFile = renameFile
+                    nowFileAbc = renameFile
                     item.value.textProperty().set(dialog.editor.text)
+
                     for (tab in tabPane.tabs.filter { it.id == file.path }) {
-                        tab.textProperty().set(dialog.editor.text)
-                        tab.id = pth
-                        cursorId.remove(file.path)
-                        cursorId.add(pth)
+                        (tab as MyTab).rename(renameFile)
                     }
+
                 }
 
             }
@@ -123,24 +126,30 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
         val newFileName = MenuItem("重命名")
         newFileName.onAction = EventHandler {
             val dialog = TextInputDialog()
+            dialog.editor.text = file.name
             val showAndWait = dialog.showAndWait()
             if (showAndWait.isPresent) {
                 val pth = file.parent + "/" + dialog.editor.text
-                val file1 = File(pth)
-                val renameTo = file.renameTo(file1)
+                val onceFileList = file.listFiles()
+                val renameFile = File(pth)
+                val renameTo = file.renameTo(renameFile)
                 if (renameTo) {
-                    if (com.wordtree.wt_kt_note_book.file != null) {
-                        val listFiles = com.wordtree.wt_kt_note_book.file!!.listFiles()
-                        val fileItemRoot2 = TreeItem<Label>(Label(com.wordtree.wt_kt_note_book.file!!.name))
-                        fileItemRoot2.graphic = YtIcon(R.ImageUrl2("FileSet"))
-                        addFileThrift(listFiles, fileItemRoot2)
-                        fileTreeView.root = fileItemRoot2
-                        tabPane.tabs.clear()
-                        cursorId = ArrayList<String>()
-                        Thread {
-                            fileSetOperations(fileItemRoot2, com.wordtree.wt_kt_note_book.file!!)
-                        }.start()
+                    item.value.textProperty().set(dialog.editor.text)
+                    this.file = renameFile
+                    val nowListFiles = renameFile.listFiles()
+                    if (tabPane.tabs.size != 0){
+                        tabPane.tabs.forEachIndexed{ _, tab->
+                            onceFileList.forEachIndexed {index,it->
+                                if (tab.idProperty().get() == it.path){
+                                    (tab as MyTab).rename(nowListFiles[index])
+                                }
+                            }
+                        }
+                        flush(renameFile)
+                    }else{
+                        flush(renameFile)
                     }
+
                 }
             }
         }
@@ -187,6 +196,24 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
             val myTab = MyTab(file)
             tabPane.tabs.add(myTab)
             globalTab = myTab
+        }
+    }
+
+    fun removeSelf(){
+        if (this.parent != null){
+            this.parent.children.remove(this)
+        }
+    }
+
+    fun flush(file: File){
+        val indexOf = this.parent.children.indexOf(this)
+        if (this.parent != null){
+            val selfParent = this.parent
+            removeSelf()
+            val treeItem = YtTreeItem(file)
+            selfParent.children.add(indexOf, addFileThrift(file.listFiles(),treeItem))
+            treeItem.isExpanded = true
+            fileTreeView.selectionModel.select(treeItem)
         }
     }
 }
