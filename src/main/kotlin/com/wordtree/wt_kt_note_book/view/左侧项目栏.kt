@@ -1,5 +1,8 @@
-package com.wordtree.wt_kt_note_book
+package com.wordtree.wt_kt_note_book.view
 
+import com.wordtree.wt_kt_note_book.centerPane
+import com.wordtree.wt_kt_note_book.fileViewOpen
+import com.wordtree.wt_kt_note_book.root
 import javafx.event.EventHandler
 import javafx.scene.control.Button
 import javafx.scene.layout.VBox

@@ -1,8 +1,10 @@
 package com.wordtree.wt_kt_note_book
 
-import cn.hutool.core.io.FileUtil
 import com.wordtree.wt_config.Index_Config
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
+import com.wordtree.wt_kt_note_book.view.属于用户的操作逻辑区域
+import com.wordtree.wt_kt_note_book.view.左侧项目栏
+import com.wordtree.wt_kt_note_book.view.菜单栏
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Application
 import javafx.application.Platform
@@ -57,14 +59,8 @@ class Coder() : Application() {
     private fun 快捷键(scene: Scene) {
         val codeCombination = KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN)
         scene.accelerators.put(codeCombination) {
-            val stage = root.scene.window as Stage
-            if (stage.title == "*"&&nowFile != null){
-                val myCode = globalTab!!.coderArea
-                FileUtil.writeString(myCode.text,nowFile!!,"utf-8")
-                stage.title = ""
-            }
+            saveFile()
         }
-
     }
 
     private fun 布局() {

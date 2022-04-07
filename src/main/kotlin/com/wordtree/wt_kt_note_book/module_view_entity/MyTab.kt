@@ -2,9 +2,13 @@ package com.wordtree.wt_kt_note_book.module_view_entity
 
 import com.wordtree.wt_kt_note_book.globalTab
 import com.wordtree.wt_kt_note_book.nowFile
+import com.wordtree.wt_kt_note_book.saveFile
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Platform
 import javafx.event.EventHandler
+import javafx.scene.control.Alert
+import javafx.scene.control.ButtonBar
+import javafx.scene.control.ButtonType
 import javafx.scene.control.Tab
 import org.fxmisc.flowless.VirtualizedScrollPane
 import java.io.BufferedReader
@@ -28,6 +32,25 @@ class MyTab(val file:File):Tab() {
                 coderArea.requestFocus()
             }
         }
+        this.onCloseRequest = EventHandler {
+            if (coderArea.isModifyBol){
+                val alert = warningAlert()
+                val result = alert.showAndWait()
+                if (result.get().buttonData.equals(ButtonBar.ButtonData.YES)) {
+                    saveFile()
+                    it.clone()
+                } else if (result.get().buttonData.equals(ButtonBar.ButtonData.NO)) {
+                    it.consume()
+                } else if (result.get().buttonData.equals(ButtonBar.ButtonData.APPLY)) {
+                    it.clone()
+                }
+            }
+        }
+    }
+
+    fun rename(file: File){
+        this.idProperty().set(file.path)
+        this.textProperty().set(file.name)
     }
 
     private fun displayText(){
@@ -36,5 +59,16 @@ class MyTab(val file:File):Tab() {
         val readerString = reader.readText()
         coderArea.replaceText(0, 0, readerString)
         isr.close()
+    }
+
+    private fun warningAlert():Alert{
+        val alert = Alert(
+            Alert.AlertType.CONFIRMATION, "", ButtonType("不保存", ButtonBar.ButtonData.APPLY),
+            ButtonType("保存", ButtonBar.ButtonData.YES), ButtonType("取消", ButtonBar.ButtonData.NO)
+        )
+        alert.title = "警告！！！"
+        alert.headerText = "文件还未保存确定关闭吗？"
+        alert.contentText = "需要保存文件请点击ok！\n点击取消将不保存文件"
+        return alert
     }
 }

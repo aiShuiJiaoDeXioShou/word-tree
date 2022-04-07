@@ -5,7 +5,7 @@ import javafx.scene.control.ButtonBar
 import javafx.scene.control.ButtonType
 import java.util.*
 
-class YtDialogBox(content: Node):SettingBase(
+class YtDialogBox(content: Node): BaseSetting(
     AlertType.NONE, content,
     ButtonType("应用", ButtonBar.ButtonData.APPLY),
     ButtonType("保存", ButtonBar.ButtonData.YES),

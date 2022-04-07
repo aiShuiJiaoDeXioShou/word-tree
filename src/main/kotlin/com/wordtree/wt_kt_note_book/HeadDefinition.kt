@@ -11,7 +11,9 @@ import javafx.scene.layout.VBox
 import org.fxmisc.richtext.CodeArea
 import java.io.File
 
+@Deprecated("该字段已弃用")
 val codeArea = CodeArea()
+
 val root = BorderPane()
 val topBar = MenuBar()
 val userBox = VBox()
@@ -23,10 +25,14 @@ var file: File? = File("D:\\1.java\\worspace-java\\Vue3\\study") //这个是整�
 var fileItemRoot = YtTreeItem(file!!)
 val fileTreeView = TreeView(fileItemRoot)
 var fileViewOpen = true
+
+@Deprecated("该字段已弃用")
 var cursorId = ArrayList<String>() //记录所有tab标签的id值
 
 //编辑区上面的tap标签页
 val tabPane = TabPane()
+
+@Deprecated("该字段已经快要弃用")
 val fileTab = VBox()//放置tab和它文本编辑器的盒子
 
 //用户的头像
@@ -57,5 +63,5 @@ val bar = ProgressBar(0.0)
 var globalTab:MyTab? = null
 
 fun cssInit(){
-    codeArea.styleClass.addAll("coder","coderYt")
+
 }

@@ -1,6 +1,7 @@
-package com.wordtree.wt_kt_note_book
+package com.wordtree.wt_kt_note_book.view
 
 import com.wordtree.wt_config.Index_Config
+import com.wordtree.wt_kt_note_book.*
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.event.EventHandler
@@ -22,7 +23,7 @@ fun 菜单栏() {
     val menuBarData = R.propertiesItem("menu_bar") as Map<String,Any>
     //这里是上界面menu的内容
     val menu = Menu("文件").apply { styleClass.add("zkh_MenuItem") }
-    menu.items.addAll(保存, 打开文件,打开文件夹)
+    menu.items.addAll(保存, 打开文件, 打开文件夹)
 
     //获取设置面板的数据
     val settingData = menuBarData.get("setting") as Map<String,Any>
@@ -37,7 +38,7 @@ fun 菜单栏() {
     topBar.apply {
         padding = Insets(2.0)
         styleClass.add("zkh_MenuBar")
-        menus.addAll(menu,设置菜单栏)//将menu放到菜单栏当中
+        menus.addAll(menu, 设置菜单栏)//将menu放到菜单栏当中
     }
     root.top = topBar
     菜单栏操作()
@@ -45,7 +46,7 @@ fun 菜单栏() {
 
 private fun 菜单栏操作() {
     保存.onAction = EventHandler {
-        保存文件()
+        saveFile()
     }
     打开文件.onAction = EventHandler {
 

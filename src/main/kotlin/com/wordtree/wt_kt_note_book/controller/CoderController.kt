@@ -1,5 +1,6 @@
 package com.wordtree.wt_kt_note_book
 
+import cn.hutool.core.io.FileUtil
 import com.wordtree.wt_kt_module.CommonComponents
 import com.wordtree.wt_kt_note_book.module_view_entity.TaskPromptBar
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
@@ -12,7 +13,10 @@ import javafx.event.EventHandler
 import javafx.scene.control.*
 import javafx.stage.Stage
 import org.fxmisc.richtext.CodeArea
-import java.io.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStreamReader
 
 private var filesNumber = SimpleDoubleProperty(0.0)
 private var fileSavings = 0.0
@@ -56,7 +60,46 @@ fun 计算所有的文件节支(listFile: Array<File>):Double{
     return fileSavings
 }
 
+//执行保存文件操作
+fun saveFile() {
+    val nowCode = nowCode()
+    if (nowCode.isModifyBol && nowFile != null){
+        FileUtil.writeString(nowCode.text,nowFile!!,"utf-8")
+        //更新UI界面
+        nowTab()!!.textProperty().set(nowFile!!.name)
+        nowCode.isModifyBol = false
+    }
+}
 
+fun 文件树(treeItem:TreeItem<Label>?=null, listFile: Array<File>?=null) {
+    //这个是文件树部分
+    fileTreeView.apply {
+        if (file != null) {
+            val fileTreeService = FileTreeService(file!!)
+            val taskPromptBar = TaskPromptBar(fileTreeService)
+        }else if(treeItem != null){
+            addFileThrift(listFile!!, treeItem)
+        }
+    }
+}
+
+class FileTreeService(file: File):Task<Double>(){
+    override fun call(): Double {
+        filesNumber.set(0.0)
+        fileSavings = 0.0
+        val listFiles = file!!.listFiles()
+        val nums = 计算所有的文件节支(listFiles)
+        addFileThrift(listFiles, fileItemRoot){
+            this.updateProgress(it,nums)
+        }
+//        popOver.hide()
+        bar.isVisible = false
+        return 0.0
+    }
+
+}
+
+@Deprecated("此方法已经被废弃了")
 fun tab标签的切换与文本区光标的聚焦(tabPane: TabPane, codeAreaRequest: CodeArea, file: File) {
     //添加头部标签
     val tab = Tab()
@@ -66,7 +109,7 @@ fun tab标签的切换与文本区光标的聚焦(tabPane: TabPane, codeAreaRequ
     //当tab被父类方法selectionModel调用的时候发生下面事件
     tab.onSelectionChanged = EventHandler {
         if ((root.scene.window as Stage).title == "*") {
-            保存文件()
+            saveFile()
         }
         codeArea.clear()
         if (file.isFile) {
@@ -98,7 +141,7 @@ fun tab标签的切换与文本区光标的聚焦(tabPane: TabPane, codeAreaRequ
                 cursorPosition.remove(nowFile?.path)
                 cursorPosition.remove(nowFile?.path.plus("change_times"))
                 cursorPosition.remove(nowFile?.path.plus("icon_text"), file.name)
-                保存文件()
+                saveFile()
                 it.clone()
             } else if (result.get().buttonData.equals(ButtonBar.ButtonData.NO)) {
                 it.consume()
@@ -117,6 +160,7 @@ fun tab标签的切换与文本区光标的聚焦(tabPane: TabPane, codeAreaRequ
     indexFileName.set(cursorId.size)
 }
 
+@Deprecated("此方法已经被废弃了")
 //这个方法用于显示文字到编辑器上面
 fun 显示文本到编辑区(file: File, textArea: CodeArea) {
     nowFile = file
@@ -136,42 +180,4 @@ fun 显示文本到编辑区(file: File, textArea: CodeArea) {
         cursorPosition.get(nowFile?.path)
             ?.let { position -> codeArea.moveTo(position as Int);codeArea.showParagraphInViewport(position) }
     }
-}
-
-fun 保存文件() {
-    if (nowFile!=null){
-        val writer = BufferedWriter(OutputStreamWriter(FileOutputStream(nowFile), "utf-8"))
-        writer.write(codeArea.text)
-        val stage = root.scene.window as Stage
-        stage.title = ""
-        writer.close()
-    }
-}
-
-fun 文件树(treeItem:TreeItem<Label>?=null, listFile: Array<File>?=null) {
-    //这个是文件树部分
-    fileTreeView.apply {
-        if (file != null) {
-            val fileTreeService = FileTreeService(file!!)
-            val taskPromptBar = TaskPromptBar(fileTreeService)
-        }else if(treeItem != null){
-            addFileThrift(listFile!!, treeItem)
-        }
-    }
-}
-
-class FileTreeService(file: File):Task<Double>(){
-    override fun call(): Double {
-        filesNumber.set(0.0)
-        fileSavings = 0.0
-        val listFiles = file!!.listFiles()
-        val nums = 计算所有的文件节支(listFiles)
-        addFileThrift(listFiles, fileItemRoot){
-            this.updateProgress(it,nums)
-        }
-//        popOver.hide()
-        bar.isVisible = false
-        return 0.0
-    }
-
 }

@@ -1,12 +1,12 @@
-package com.wordtree.wt_kt_note_book
+package com.wordtree.wt_kt_note_book.view
 
-import com.wordtree.wt_kt_note_book.module_view_entity.SettingBase
+import com.wordtree.wt_kt_note_book.module_view_entity.BaseSetting
 import javafx.scene.control.Button
 import javafx.scene.control.ButtonBar
 import javafx.scene.control.ButtonType
 import java.util.*
 
-class 设置面板():SettingBase(
+class 设置面板(): BaseSetting(
     AlertType.NONE, Button("取消"),
     ButtonType("不保存", ButtonBar.ButtonData.APPLY),
     ButtonType("保存", ButtonBar.ButtonData.YES),

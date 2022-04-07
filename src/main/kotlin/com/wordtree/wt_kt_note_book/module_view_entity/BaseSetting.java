@@ -1,34 +1,21 @@
 package com.wordtree.wt_kt_note_book.module_view_entity;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import javafx.beans.InvalidationListener;
 import javafx.beans.NamedArg;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.Window;
 
-public class SettingBaseZiDinYi extends Dialog<ButtonType> {
-    private double x = 0.00;
-    private double y = 0.00;
-    private double RESIZE_WIDTH = 5.00;
-    private double MIN_WIDTH = 400.00;
-    private double MIN_HEIGHT = 50.0;
-    private double xOffset = 0, yOffset = 0;//自定义dialog移动横纵坐标
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+public class BaseSetting extends Dialog<ButtonType> {
 
     public static enum AlertType {
         NONE,
@@ -54,9 +41,9 @@ public class SettingBaseZiDinYi extends Dialog<ButtonType> {
     };
 
 
-    public SettingBaseZiDinYi(@NamedArg("alertType") AlertType alertType,
-                @NamedArg("Node") Node node,
-                 @NamedArg("buttonTypes") ButtonType... buttons) {
+    public BaseSetting(@NamedArg("alertType") AlertType alertType,
+                       @NamedArg("Node") Node node,
+                       @NamedArg("buttonTypes") ButtonType... buttons) {
         super();
 
         final DialogPane dialogPane = getDialogPane();
@@ -69,65 +56,16 @@ public class SettingBaseZiDinYi extends Dialog<ButtonType> {
                 dialogPane.getButtonTypes().addAll(btnType);
             }
         }
-
-        BorderPane borderPane = new BorderPane();
-        borderPane.setTop(new Label("正在执行任务"));
-        borderPane.setCenter(node);
-        dialogPane.setContent(borderPane);
-        borderPane.setMinWidth(MIN_WIDTH);
-        borderPane.setMinHeight(MIN_HEIGHT);
-        //获取当前视窗
-        Stage window = (Stage)dialogPane.getScene().getWindow();
-        //隐藏windows平台原有的样式
-        window.initStyle(StageStyle.TRANSPARENT);
-        //设置移动事件
-        MouseDragEvent(borderPane,window);
+        dialogPane.setContent(node);
 
         setAlertType(alertType);
+
+
         dialogPaneProperty().addListener(o -> updateListeners());
         titleProperty().addListener(titleListener);
         updateListeners();
     }
 
-    //窗口的拖动事件
-    private void MouseDragEvent(Node root,Stage primaryStage){
-        //监听窗口的x跟y值，当他们发生改变的时候刷新值
-        primaryStage.xProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                x = newValue.doubleValue();
-            }
-        });
-
-        primaryStage.yProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                y = newValue.doubleValue();
-            }
-        });
-
-        //当鼠标点击该位置的时候获取横纵坐标
-        root.setOnMousePressed(event -> {
-            event.consume();
-            xOffset = event.getSceneX();
-            if (event.getSceneY() > 46) {
-                yOffset = 0;
-            } else {
-                yOffset = event.getSceneY();
-            }
-        });
-
-        //根据横纵坐标的位置，监听鼠标的拖动事件，改变窗体位置
-        root.setOnMouseDragged(event -> {
-            //根据鼠标的横纵坐标移动dialog位置
-            if (yOffset != 0 ) {
-                primaryStage.setX(event.getScreenX() - xOffset);
-                if (event.getScreenY() - yOffset < 0) {
-                    primaryStage.setY(0);
-                } else {
-                    primaryStage.setY(event.getScreenY() - yOffset);
-                }
-            }
-        });
-    }
 
     private final ObjectProperty<AlertType> alertType = new SimpleObjectProperty<AlertType>(null) {
         final String[] styleClasses = new String[] { "information", "warning", "error", "confirmation" };
@@ -179,9 +117,11 @@ public class SettingBaseZiDinYi extends Dialog<ButtonType> {
         return alertType;
     }
 
+
     public final ObservableList<ButtonType> getButtonTypes() {
         return getDialogPane().getButtonTypes();
     }
+
 
     private void updateListeners() {
         DialogPane oldPane = dialogPaneRef.get();
@@ -199,5 +139,4 @@ public class SettingBaseZiDinYi extends Dialog<ButtonType> {
 
         dialogPaneRef = new WeakReference<DialogPane>(newPane);
     }
-
 }

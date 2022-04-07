@@ -1,16 +1,14 @@
 package com.wordtree.wt_kt_note_book.module_view_entity
 
-import com.wordtree.wt_kt_note_book.bar
 import javafx.concurrent.Task
 import javafx.scene.control.ButtonBar
 import javafx.scene.control.ButtonType
 import javafx.scene.control.ProgressBar
-import kotlin.system.exitProcess
 
 class TaskPromptBar(val myTask: Task<Double>,
                     progressBar: ProgressBar = ProgressBar(0.0),
                     val but: ButtonType = ButtonType("取消", ButtonBar.ButtonData.NO)
-): SettingBaseZiDinYi(AlertType.NONE, progressBar, but)  {
+): CustomSetting(AlertType.NONE, progressBar, but)  {
     init {
         val thread = Thread(myTask)
         progressBar.prefWidth = 400.0

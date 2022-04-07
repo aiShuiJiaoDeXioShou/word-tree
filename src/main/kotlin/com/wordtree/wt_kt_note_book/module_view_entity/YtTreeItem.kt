@@ -4,8 +4,6 @@ import com.wordtree.wt_kt_note_book.*
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.event.EventHandler
 import javafx.scene.control.*
-import javafx.scene.image.Image
-import javafx.scene.image.ImageView
 import javafx.scene.input.MouseButton
 import java.io.File
 
@@ -52,6 +50,7 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
         delFile.onAction = EventHandler {
             item.parent.children.remove(item)
             file.delete()
+            tabPaneOrDelTab(file.path)
         }
 
         val againFile = MenuItem("重命名")
@@ -110,8 +109,11 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
             }
         }
 
-        val delFile = MenuItem("删除该文件夹")
-        delFile.onAction = EventHandler {
+        val delFileSet = MenuItem("删除该文件夹")
+        delFileSet.onAction = EventHandler {
+            file.listFiles().forEach {
+                tabPaneOrDelTab(it.path)
+            }
             val deleteRecursively = file.deleteRecursively()
             if (deleteRecursively) {
                 item.parent.children.remove(item)
@@ -129,10 +131,8 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
                 if (renameTo) {
                     if (com.wordtree.wt_kt_note_book.file != null) {
                         val listFiles = com.wordtree.wt_kt_note_book.file!!.listFiles()
-                        val fileItemRoot2 =
-                            TreeItem<Label>(Label(com.wordtree.wt_kt_note_book.file!!.name))
-                        fileItemRoot2.graphic =
-                            ImageView(Image(R.ImageUrl2("FileSet"), 15.0, 15.0, true, true))
+                        val fileItemRoot2 = TreeItem<Label>(Label(com.wordtree.wt_kt_note_book.file!!.name))
+                        fileItemRoot2.graphic = YtIcon(R.ImageUrl2("FileSet"))
                         addFileThrift(listFiles, fileItemRoot2)
                         fileTreeView.root = fileItemRoot2
                         tabPane.tabs.clear()
@@ -166,7 +166,7 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
             }
         }
 
-        contextMenu.items.addAll(newFileSet, newFile, delFile, newFileName)
+        contextMenu.items.addAll(newFileSet, newFile, delFileSet, newFileName)
     }
 
     //文件树的点击事件
@@ -177,7 +177,7 @@ open class YtTreeItem(val file:File) :TreeItem<Label>(){
                 //tab标签的切换与文本区光标的聚焦(tabPane, codeArea, file)
                 val myTab = MyTab(file)
                 tabPane.tabs.add(myTab)
-                tabPane.selectionModel.select(filterTab[0])
+                tabPane.selectionModel.select(myTab)
                 globalTab = myTab
             }else{
                 tabPane.selectionModel.select(filterTab[0])

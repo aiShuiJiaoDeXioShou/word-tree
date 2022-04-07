@@ -1,7 +1,8 @@
-package com.wordtree.wt_kt_note_book
+package com.wordtree.wt_kt_note_book.view
 
 import com.wordtree.wt_kt_module.CommonComponents
 import com.wordtree.wt_kt_module.assembly.BookBox
+import com.wordtree.wt_kt_note_book.*
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
 import com.wordtree.wt_toolkit.flie_expand.R
 import eu.hansolo.tilesfx.Tile
@@ -52,7 +53,7 @@ fun 属于用户的操作逻辑区域() {
     userBox.apply {
         maxWidth = USER_WIDTH
         minWidth = 0.0
-        children.addAll(用户名片部分(),用户操作部分(),书架())
+        children.addAll(用户名片部分(), 用户操作部分(), 书架())
         userOperationBox.add(userRecord)
         userOperationBox.add(统计用户信息()!!)
     }
@@ -116,7 +117,7 @@ private fun 用户名片部分():HBox{
 }
 private fun 用户操作部分():VBox{
     userOperation.prefHeight = 320.0
-    userOperation.children.addAll(用户名片栏的切换部分(),第一个切换盒子())
+    userOperation.children.addAll(用户名片栏的切换部分(), 第一个切换盒子())
     return userOperation
 }
 private fun 第一个切换盒子():VBox{
@@ -134,7 +135,7 @@ private fun 用户名片栏的切换部分():TabPane{
     }
 
     用户操作面板tab栏.selectionModel.selectedItemProperty().addListener { _, old, new ->
-        用户操作面板tab栏.tabs.forEachIndexed{index,tab->
+        用户操作面板tab栏.tabs.forEachIndexed{ index, tab->
             if (tab == new){
                 try {
                     if (userOperation.children.size==2){
@@ -143,7 +144,7 @@ private fun 用户名片栏的切换部分():TabPane{
                 }catch (e:Exception){
                     println("log_user_operation->已经没有多余的盒子了")
                 }finally {
-                    if (index<userOperationBox.size) {
+                    if (index< userOperationBox.size) {
                         userOperation.children.add(userOperationBox[index])
                     }
                 }
