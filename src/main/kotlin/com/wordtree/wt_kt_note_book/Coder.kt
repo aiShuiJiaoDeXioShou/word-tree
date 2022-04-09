@@ -2,7 +2,7 @@ package com.wordtree.wt_kt_note_book
 
 import com.wordtree.wt_config.Index_Config
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
-import com.wordtree.wt_kt_note_book.view.属于用户的操作逻辑区域
+import com.wordtree.wt_kt_note_book.view.user.属于用户的操作逻辑区域
 import com.wordtree.wt_kt_note_book.view.左侧项目栏
 import com.wordtree.wt_kt_note_book.view.菜单栏
 import com.wordtree.wt_toolkit.flie_expand.R

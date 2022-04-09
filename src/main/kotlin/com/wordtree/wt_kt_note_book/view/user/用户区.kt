@@ -1,4 +1,4 @@
-package com.wordtree.wt_kt_note_book.view
+package com.wordtree.wt_kt_note_book.view.user
 
 import com.wordtree.wt_kt_module.CommonComponents
 import com.wordtree.wt_kt_module.assembly.BookBox
@@ -13,8 +13,10 @@ import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.property.StringProperty
 import javafx.event.EventHandler
+import javafx.fxml.FXMLLoader
 import javafx.geometry.Insets
 import javafx.geometry.Pos
+import javafx.scene.Cursor
 import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.image.Image
@@ -104,6 +106,11 @@ private fun 用户名片部分():HBox{
                 editBut.padding = Insets(7.0, 0.0, 0.0, 0.0)
                 children.addAll(name, editBut)
                 spacing = 10.0
+                editBut.cursor = Cursor.HAND
+                editBut.onMouseClicked = EventHandler {
+                    val fxmlLoader = FXMLLoader(用户面板View::class.java.getResource("用户面板.fxml"))
+                    用户面板View(fxmlLoader.load())
+                }
             }
             pi2.styleClass.add("progressbarYt")
             gradeBox.children.addAll(grade, pi2)
