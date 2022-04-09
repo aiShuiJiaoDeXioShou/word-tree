@@ -1,7 +1,5 @@
 package com.wordtree.wt_config;
 
-import com.wordtree.wt_physical.User;
-
 public class Index_Config {
     public static final String APP_NAME = "来自 - 星辰";
     public static final String APP_ICON = "static/img/icon.png";
@@ -12,5 +10,7 @@ public class Index_Config {
     public static final String FileMenu_保存 = "保存";
     public static final String FileMenu_打开 = "导入书籍";
     public static final String FileMenu_打开文件夹 = "打开书籍文件夹";
-
+    public static final String FileMenu_新建项目 = "新建项目";
+    public static final String FileMenu_新建小说 = "新建小说";
+    public static final String FileMenu_窗口 = "新建窗口";
 }

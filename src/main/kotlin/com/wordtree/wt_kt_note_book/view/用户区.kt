@@ -83,10 +83,10 @@ private fun 统计用户信息(): Tile? {
 private fun 用户名片部分():HBox{
     //用户的名片部分,这里面涉及到布局美化
     userLineBox.apply {
-        name.text = R.textName("System.User.Name") //设置系统用户名称
-        grade.text = R.textName("System.User.lv") //设置系统用户等级
+        name.text = R.getPropertie("System.User.Name") //设置系统用户名称
+        grade.text = R.getPropertie("System.User.lv") //设置系统用户等级
         val userHeadPortrait = Image(R.ImageUrl2("System.User.Image")) //设置系统用户照片
-        motto.text = R.textName("System.User.Motto") //设置系统用户座右铭
+        motto.text = R.getPropertie("System.User.Motto") //设置系统用户座右铭
         val userImage = Circle(ImageSize, ImagePattern(userHeadPortrait))
         prefHeight = 120.0
         background = Background(BackgroundFill(Paint.valueOf("#ff7875"), null, null))

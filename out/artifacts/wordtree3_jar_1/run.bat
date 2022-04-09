@@ -1,0 +1,1 @@
+java -classpath wordtree3.jar com.wordtree.MainKt

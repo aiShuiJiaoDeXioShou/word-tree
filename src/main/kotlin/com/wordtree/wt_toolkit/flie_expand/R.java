@@ -3,25 +3,55 @@ package com.wordtree.wt_toolkit.flie_expand;
 import com.google.gson.Gson;
 import com.wordtree.MainKt;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Properties;
 
 public class R {
-    public static String textName(String name) {
+    public static String getPropertie(String name) {
+        Properties properties = getProperties("app.properties");
+        return properties.getProperty(name);
+    }
+
+    public static boolean addProperty(String key,String value) {
+        return updateProperty(key,value);
+    }
+
+    public static boolean updateProperty(String key,String value) {
+        Properties properties = getProperties("app.properties");
+        Object o = properties.setProperty(key, value);
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(R.class.getClassLoader().getResource("app.properties").getFile());
+            properties.store(fileOutputStream,"注释");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return o != null;
+    }
+
+    public static boolean removeProperty(String key){
+        Properties properties = getProperties("app.properties");
+        Object o = properties.remove(key);
+        return o != null;
+    }
+
+    private static Properties getProperties(String name){
         BufferedReader in = null;
-        InputStream resourceAsStream = R.class.getClassLoader().getResourceAsStream("app.properties");
-        String s = null;
+        InputStream resourceAsStream = R.class.getClassLoader().getResourceAsStream(name);
+        Properties p = null;
         try {
             assert resourceAsStream != null;
             in = new BufferedReader(new InputStreamReader(resourceAsStream, StandardCharsets.UTF_8));
-            Properties p = new Properties();
+            p = new Properties();
             p.load(in);
-            s = p.getProperty(name);
         } catch (IOException e) {
             System.err.println("读取文件app.properties操作失败！！！");
             e.printStackTrace();
@@ -33,13 +63,14 @@ public class R {
                 e.printStackTrace();
             }
         }
-        return s;
+        return p;
     }
+
     public static String ImageUrl(String name)  {
         String aStatic = null;
         try {
-            aStatic = R.class.getClassLoader().getResource("static/img/"+textName(name)).toString();
-            System.out.println("name"+textName(name));
+            aStatic = R.class.getClassLoader().getResource("static/img/"+ getPropertie(name)).toString();
+            System.out.println("name"+ getPropertie(name));
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -55,7 +86,7 @@ public class R {
     public static InputStream ImageUrl2(String name)  {
         InputStream aStatic = null;
         try {
-            aStatic = R.class.getClassLoader().getResourceAsStream("static/img/"+textName(name));
+            aStatic = R.class.getClassLoader().getResourceAsStream("static/img/"+ getPropertie(name));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,6 +111,11 @@ public class R {
             }
         }
         return param;
+    }
+
+    public static void main(String[] args) {
+        boolean b = updateProperty("aoteman", "迪迦奥特曼");
+        System.out.println(b);
     }
 
 }

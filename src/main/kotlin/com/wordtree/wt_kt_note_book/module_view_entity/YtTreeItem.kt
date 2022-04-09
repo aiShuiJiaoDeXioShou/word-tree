@@ -1,15 +1,27 @@
 package com.wordtree.wt_kt_note_book.module_view_entity
 
 import com.wordtree.wt_kt_note_book.*
+import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.event.EventHandler
 import javafx.scene.control.*
 import javafx.scene.input.MouseButton
 import java.io.File
 
-open class YtTreeItem(var file:File) :TreeItem<Label>(){
+open class YtTreeItem(var file:File,val isFileBool:Boolean = false) :TreeItem<Label>(){
     private val label = Label(file.name)
     init {
         this.value = label
+
+        //判断手动传入的文件判断值，如果为默认值则什么都不会改变
+        if (isFileBool){
+            this.graphic = YtIcon(R.ImageUrl2("FileIcon"))
+        }else{
+            this.graphic = when(file.isFile){
+                true->YtIcon(R.ImageUrl2("FileIcon"))
+                else->YtIcon(R.ImageUrl2("FileSetIcon"))
+            }
+        }
+
         initial()
     }
 
@@ -31,18 +43,7 @@ open class YtTreeItem(var file:File) :TreeItem<Label>(){
 
         val newFile = MenuItem("新建文件")
         newFile.onAction = EventHandler {
-            val dialog = TextInputDialog()
-            val showAndWait = dialog.showAndWait()
-            if (showAndWait.isPresent) {
-                println(dialog.editor.text)
-                val treeItem = TreeItem<Label>()
-                val label = Label(dialog.editor.text)
-                treeItem.value = label
-                val newFile1 = File(file.parent.plus("/${dialog.editor.text}"))
-                newFile1.createNewFile()
-                fileOperations(treeItem, newFile1)
-                item.parent.children.add(treeItem)
-            }
+            newFile(item,file)
         }
 
         val delFile = MenuItem("删除该文件")
@@ -85,6 +86,32 @@ open class YtTreeItem(var file:File) :TreeItem<Label>(){
                 node.contextMenu = contextMenu
             } else if (it.clickCount >= 2) {
                 fileTreeClickEvent(nowFileAbc)
+            }
+        }
+    }
+
+    //新建一个文件
+    private fun newFile(item: TreeItem<Label>, file: File){
+        val dialog = TextInputDialog()
+        val showAndWait = dialog.showAndWait()
+        if (showAndWait.isPresent) {
+            var newFile:File? = null
+            if (file.isFile){
+                 newFile = File(file.parent.plus("/${dialog.editor.text}"))
+            }else{
+                newFile = File(file.path.plus("/${dialog.editor.text}"))
+            }
+
+            newFile.createNewFile()
+
+            val treeItem = YtTreeItem(newFile,true)
+
+            fileOperations(treeItem,newFile)
+
+            if (file.isFile){
+                item.parent.children.add(treeItem)
+            }else{
+                item.children.add(treeItem)
             }
         }
     }
@@ -156,17 +183,7 @@ open class YtTreeItem(var file:File) :TreeItem<Label>(){
 
         val newFile = MenuItem("新建文件")
         newFile.onAction = EventHandler {
-            val dialog = TextInputDialog()
-            val showAndWait = dialog.showAndWait()
-            if (showAndWait.isPresent) {
-                val treeItem = TreeItem<Label>()
-                val label = Label(dialog.editor.text)
-                treeItem.value = label
-                val newFile1 = File(file.path.plus("/${dialog.editor.text}"))
-                newFile1.createNewFile()
-                fileOperations(treeItem, newFile1)
-                item.children.add(treeItem)
-            }
+            newFile(item, file)
         }
 
         node.onMouseClicked = EventHandler {

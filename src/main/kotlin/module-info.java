@@ -17,10 +17,16 @@ module com.wordtree {
     requires org.fxmisc.richtext;
     requires org.fxmisc.flowless;
     requires reactfx;
+    requires com.jfoenix;
 
     opens com.wordtree to javafx.fxml,hutool.all;
+    opens com.wordtree.wt_kt_note_book to javafx.fxml,hutool.all;
+    opens com.wordtree.wt_kt_note_book.view to javafx.fxml,hutool.all;
+    opens com.wordtree.wt_kt_note_book.service to javafx.fxml,hutool.all;
     exports com.wordtree;
     exports com.wordtree.wt_kt_note_book;
     exports com.wordtree.wt_test;
     exports com.wordtree.wt_kt_note_book.module_view_entity;
+    exports com.wordtree.wt_kt_note_book.view;
+    exports com.wordtree.wt_kt_note_book.service;
 }

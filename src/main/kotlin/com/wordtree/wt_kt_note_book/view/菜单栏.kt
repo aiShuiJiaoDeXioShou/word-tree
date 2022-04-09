@@ -5,6 +5,7 @@ import com.wordtree.wt_kt_note_book.*
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.event.EventHandler
+import javafx.fxml.FXMLLoader
 import javafx.geometry.Insets
 import javafx.scene.control.Label
 import javafx.scene.control.Menu
@@ -15,6 +16,8 @@ import javafx.stage.DirectoryChooser
 private val 保存 = MenuItem(Index_Config.FileMenu_保存)
 private val 打开文件 = MenuItem(Index_Config.FileMenu_打开)
 private val 打开文件夹 = MenuItem(Index_Config.FileMenu_打开文件夹)
+private val 新建项目 = MenuItem(Index_Config.FileMenu_新建项目)
+private val 新建窗口 = MenuItem(Index_Config.FileMenu_窗口)
 
 private var 设置菜单栏: Menu? = null
 
@@ -23,7 +26,7 @@ fun 菜单栏() {
     val menuBarData = R.propertiesItem("menu_bar") as Map<String,Any>
     //这里是上界面menu的内容
     val menu = Menu("文件").apply { styleClass.add("zkh_MenuItem") }
-    menu.items.addAll(保存, 打开文件, 打开文件夹)
+    menu.items.addAll(保存, 打开文件, 打开文件夹, 新建项目,新建窗口)
 
     //获取设置面板的数据
     val settingData = menuBarData.get("setting") as Map<String,Any>
@@ -61,7 +64,16 @@ private fun 菜单栏操作() {
             treeItem.value = Label(file.name).apply { graphic = YtIcon(R.ImageUrl2("FileSet")) }
             addFileThrift(file.listFiles(), treeItem)
             fileTreeView.root = treeItem
+            R.addProperty("fileChoose",fileChoose.toString());
         }
+    }
+    新建项目.onAction = EventHandler {
+        //跳出弹窗输入项目名称或者其他的东西
+        val fxmlLoader = FXMLLoader(None().javaClass.getResource("新建项目根.fxml"))
+        新建项目弹窗(fxmlLoader.load())
+    }
+    新建窗口.onAction = EventHandler {
+        Coder().show()
     }
     for (item in 设置菜单栏!!.items) {
         when(item.text){

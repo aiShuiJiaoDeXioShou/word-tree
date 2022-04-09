@@ -3,6 +3,9 @@ package com.wordtree.wt_kt_note_book.module_view_entity
 import com.wordtree.wt_kt_note_book.globalTab
 import com.wordtree.wt_kt_note_book.nowFile
 import com.wordtree.wt_kt_note_book.saveFile
+import com.wordtree.wt_kt_note_book.service.HTMLEditorService
+import com.wordtree.wt_kt_note_book.service.JavaKeywordsService
+import com.wordtree.wt_kt_note_book.service.XMLEditorService
 import com.wordtree.wt_toolkit.flie_expand.FileToolYt
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Platform
@@ -21,8 +24,9 @@ import java.io.InputStreamReader
 class MyTab(var file:File):Tab() {
     val coderArea = MyCode()
     private val coder = when(FileToolYt.getFileExtension(file)){
-        ".java"->JavaKeywordsAsyncDemo(coderArea).javaCodeArea()
-        ".xml"->VirtualizedScrollPane<CodeArea>(coderArea)
+        ".java"-> JavaKeywordsService(coderArea).javaCodeArea()
+        ".xml"->XMLEditorService(coderArea).init()
+        ".html"-> HTMLEditorService(coderArea).init()
         ".c"->VirtualizedScrollPane<CodeArea>(coderArea)
         ".c++"->VirtualizedScrollPane<CodeArea>(coderArea)
         ".txt"->VirtualizedScrollPane<CodeArea>(coderArea)

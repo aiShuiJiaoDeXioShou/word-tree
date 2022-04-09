@@ -1,6 +1,5 @@
 package com.wordtree.wt_toolkit.flie_expand;
 
-import com.wordtree.MainKt;
 import javafx.scene.control.TreeItem;
 
 import java.io.File;
@@ -30,8 +29,4 @@ public class FileItemUi {
         }
     }
 
-    public static void main(String[] args) {
-        File file = new File("D:\\3.Node.js\\项目以及学习目录\\JavaScript学习");
-
-    }
 }

@@ -2,6 +2,7 @@ package com.wordtree.wt_kt_note_book
 
 import com.wordtree.wt_kt_note_book.module_view_entity.MyTab
 import com.wordtree.wt_kt_note_book.module_view_entity.YtTreeItem
+import com.wordtree.wt_toolkit.flie_expand.FileToolYt
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.scene.control.*
@@ -14,17 +15,19 @@ import java.io.File
 @Deprecated("该字段已弃用")
 val codeArea = CodeArea()
 
-val root = BorderPane()
+var root = BorderPane()
 val topBar = MenuBar()
 val userBox = VBox()
 val USER_WIDTH = 340.0
 val centerPane = SplitPane()
 
 //左侧文件树
-var file: File? = File("D:\\1.java\\worspace-java\\Vue3\\study") //这个是整个编辑器的母文件夹
+var file: File? = FileToolYt.createFile(null) //这个是整个编辑器的母文件夹
 var fileItemRoot = YtTreeItem(file!!)
 val fileTreeView = TreeView(fileItemRoot)
 var fileViewOpen = true
+
+var txtTreeView = TreeView<Label>()
 
 @Deprecated("该字段已弃用")
 var cursorId = ArrayList<String>() //记录所有tab标签的id值
@@ -36,7 +39,7 @@ val tabPane = TabPane()
 val fileTab = VBox()//放置tab和它文本编辑器的盒子
 
 //用户的头像
-val ImageSize = R.textName("System.User.Image.Size").toDouble()
+val ImageSize = R.getPropertie("System.User.Image.Size").toDouble()
 val gradeBox = HBox()
 val grade = Label()
 

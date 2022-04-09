@@ -92,7 +92,6 @@ class FileTreeService(file: File):Task<Double>(){
         addFileThrift(listFiles, fileItemRoot){
             this.updateProgress(it,nums)
         }
-//        popOver.hide()
         bar.isVisible = false
         return 0.0
     }
