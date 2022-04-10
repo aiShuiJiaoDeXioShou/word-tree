@@ -60,16 +60,21 @@ open class YtTreeItem(var file:File,val isFileBool:Boolean = false) :TreeItem<La
             val showAndWait = dialog.showAndWait()
 
             if (showAndWait.isPresent) {
+                val onceFile = file
                 val pth = file.parent + "/" + dialog.editor.text
                 val renameFile = File(pth)
 
-                val renameTo = file.renameTo(renameFile)
-                if (renameTo) {
+                //判断当前nowFile是不是改变文件，如果是则将新的文件路径放上去
+                if (file.renameTo(renameFile)) {
+                    if (onceFile == nowFile){
+                        nowFile = renameFile
+                    }
 
-                    nowFile = renameFile
                     nowFileAbc = renameFile
                     item.value.textProperty().set(dialog.editor.text)
 
+                    //刷新文件事件
+                    flush(renameFile)
                     for (tab in tabPane.tabs.filter { it.id == file.path }) {
                         (tab as MyTab).rename(renameFile)
                     }
@@ -156,14 +161,23 @@ open class YtTreeItem(var file:File,val isFileBool:Boolean = false) :TreeItem<La
             dialog.editor.text = file.name
             val showAndWait = dialog.showAndWait()
             if (showAndWait.isPresent) {
+                //将要改变的文件路径
                 val pth = file.parent + "/" + dialog.editor.text
+                //曾经的文件路径下面的所有文件
                 val onceFileList = file.listFiles()
+                //重命名之后的文件路径
                 val renameFile = File(pth)
                 val renameTo = file.renameTo(renameFile)
+
+                //命名成功之后
                 if (renameTo) {
+                    //改变文件树的item
                     item.value.textProperty().set(dialog.editor.text)
+                    //当前treeTree文件发生改变
                     this.file = renameFile
+                    //获取当前文件夹下面所有的文件
                     val nowListFiles = renameFile.listFiles()
+                    //改变tab
                     if (tabPane.tabs.size != 0){
                         tabPane.tabs.forEachIndexed{ _, tab->
                             onceFileList.forEachIndexed {index,it->
@@ -172,6 +186,7 @@ open class YtTreeItem(var file:File,val isFileBool:Boolean = false) :TreeItem<La
                                 }
                             }
                         }
+                        //重新给予事件
                         flush(renameFile)
                     }else{
                         flush(renameFile)
@@ -224,13 +239,23 @@ open class YtTreeItem(var file:File,val isFileBool:Boolean = false) :TreeItem<La
 
     fun flush(file: File){
         val indexOf = this.parent.children.indexOf(this)
-        if (this.parent != null){
-            val selfParent = this.parent
-            removeSelf()
-            val treeItem = YtTreeItem(file)
-            selfParent.children.add(indexOf, addFileThrift(file.listFiles(),treeItem))
-            treeItem.isExpanded = true
-            fileTreeView.selectionModel.select(treeItem)
+        if(file.isDirectory){
+            if (this.parent != null){
+                val selfParent = this.parent
+                removeSelf()
+                val treeItem = YtTreeItem(file)
+                selfParent.children.add(indexOf, addFileThrift(file.listFiles(),treeItem))
+                treeItem.isExpanded = true
+                fileTreeView.selectionModel.select(treeItem)
+            }
+        }else{
+            if (this.parent != null){
+                val selfParent = this.parent
+                removeSelf()
+                val treeItem = YtTreeItem(file)
+                selfParent.children.add(indexOf,treeItem)
+                fileTreeView.selectionModel.select(treeItem)
+            }
         }
     }
 }
