@@ -3,7 +3,6 @@ package com.wordtree.wt_kt_note_book.view
 import com.wordtree.wt_config.Index_Config
 import com.wordtree.wt_kt_note_book.addFileThrift
 import com.wordtree.wt_kt_note_book.fileTreeView
-import com.wordtree.wt_kt_note_book.module_view_entity.BaseSetting
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
 import com.wordtree.wt_kt_note_book.module_view_entity.YtTreeItem
 import com.wordtree.wt_kt_note_book.topBar
@@ -19,9 +18,10 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
 import javafx.stage.DirectoryChooser
+import org.yangteng.对话框
 import java.io.File
 
-class 新建项目弹窗(node:Node):BaseSetting(AlertType.NONE,node, ButtonType("确定", YES), ButtonType("取消", NO)){
+class 新建项目弹窗(node:Node): 对话框(node, ButtonType("确定", YES), ButtonType("取消", NO)){
     private val borderPane = node as BorderPane
     private val center = borderPane.center
     init {
