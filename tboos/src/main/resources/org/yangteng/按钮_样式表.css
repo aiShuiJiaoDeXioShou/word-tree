@@ -1,0 +1,13 @@
+.none{
+    -fx-text-fill: #ffff;
+    -fx-background-color: #595959;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-min-width: 100px;
+    -fx-min-height: 26px;
+    -fx-font-size: 20;
+    -fx-border-color: #595959;
+}
+.none:hover{
+    -fx-background-color: derive(#595959,40%);
+}

@@ -6,7 +6,14 @@
 
     <groupId>com</groupId>
     <artifactId>wordtree</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>wordtree-core</module>
+        <module>untitled</module>
+        <module>core</module>
+        <module>tboos</module>
+    </modules>
     <name>wordtree3</name>
 
     <properties>
