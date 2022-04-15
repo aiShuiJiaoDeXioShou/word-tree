@@ -21,7 +21,7 @@ val topBar = MenuBar()
 val userBox = VBox()
 val USER_WIDTH = 340.0
 val centerPane = SplitPane()
-val centerPaneRoot = SplitPane().apply { orientation = javafx.geometry.Orientation.VERTICAL }
+val centerPaneRoot = SplitPane().apply { orientation = javafx.geometry.Orientation.VERTICAL;setDividerPosition(0,1.0) }
 val bar = ProgressBar(0.0)
 
 //左侧文件树

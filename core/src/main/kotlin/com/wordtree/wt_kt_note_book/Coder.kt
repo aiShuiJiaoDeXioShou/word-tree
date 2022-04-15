@@ -100,10 +100,8 @@ class Coder() : Application() {
         //确定内容区布局,包过文件树,文件tab,和用户box
         centerPane.items.addAll(文件操作切换(), fileTab, userBox)
         centerPaneRoot.dividers[0].positionProperty().addListener { observable, oldValue, newValue ->
-            println(newValue)
             if (newValue.toDouble() > 0.98) {
                 terminalView.isVisible = false
-                println("dsfsd")
             }else{
                 terminalView.isVisible = true
             }

@@ -1,3 +1,0 @@
-----
-mvn clean install source:jar deploy -f pom.xml
-----
