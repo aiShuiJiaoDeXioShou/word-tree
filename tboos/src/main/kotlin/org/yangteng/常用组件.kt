@@ -258,7 +258,9 @@ open class 选项卡_布局 : TabPane() {
                         listView.items.add(label)
                     } else if (it.wasRemoved()) {
                         //删除该选项卡
-                        listView.items.removeAt(pos)
+                        if (pos< this.tabs.size) {
+                            listView.items.removeAt(pos)
+                        }
                     }
                 }
 
