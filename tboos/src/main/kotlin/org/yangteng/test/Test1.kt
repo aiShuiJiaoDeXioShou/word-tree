@@ -12,6 +12,10 @@ import javafx.scene.input.ClipboardContent
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
+import java.sql.Connection
+import java.sql.DriverManager
+import java.sql.PreparedStatement
+import java.util.*
 
 //按钮单元测试
 class app1() : Application() {
@@ -189,7 +193,26 @@ class app7():Application(){
     }
 }
 
+//连接sqlite数据库
+class app8(){
+    //连接sqllite数据库
+    fun connectSqlite(): Connection {
+        val driver = "org.sqlite.JDBC"
+        val url = "jdbc:sqlite:wordtree1.db"
+        Class.forName(driver)
+        return DriverManager.getConnection(url)
+    }
+}
+
 
 fun main() {
-    Application.launch(app7::class.java)
+//    Application.launch(app7::class.java)
+    val connection = app8().connectSqlite()
+    val prepareStatement = connection.prepareStatement("select * from wt_user")
+    val executeQuery = prepareStatement.executeQuery()
+    while (executeQuery.next()) {
+        println(executeQuery.getString("user_name"))
+    }
+    println(connection)
+    connection.close()
 }
