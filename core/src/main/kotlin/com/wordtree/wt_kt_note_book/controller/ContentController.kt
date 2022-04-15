@@ -47,9 +47,9 @@ fun 内容区() {
     //这个是tab文件操作部分
     centerPane.apply {
         codeArea.prefHeightProperty().bind(root.scene.window.heightProperty().add(-100))
-        fileTab.children.addAll(tabPane)
         this.setDividerPosition(0, -0.1)
         this.setDividerPosition(1, 0.5)
-        root.center = centerPane
+
+        root.center = centerPaneRoot
     }
 }

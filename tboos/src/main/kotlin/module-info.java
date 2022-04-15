@@ -5,6 +5,8 @@ module tboos {
     requires kotlin.stdlib;
     requires com.jfoenix;
     requires javafx.base;
-    opens org.yangteng to javafx.fxml,javafx.controls;
+    requires com.kodedu.terminalfx;
+    opens org.yangteng to javafx.fxml,javafx.controls,javafx.graphics;
+    opens org.yangteng.test to javafx.fxml,javafx.controls,javafx.graphics;
     exports org.yangteng;
 }

@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import org.fxmisc.richtext.CodeArea
+import org.yangteng.选项卡_布局
 import java.io.File
 
 @Deprecated("该字段已弃用")
@@ -20,6 +21,8 @@ val topBar = MenuBar()
 val userBox = VBox()
 val USER_WIDTH = 340.0
 val centerPane = SplitPane()
+val centerPaneRoot = SplitPane().apply { orientation = javafx.geometry.Orientation.VERTICAL }
+val bar = ProgressBar(0.0)
 
 //左侧文件树
 var file: File? = FileToolYt.createFile(null) //这个是整个编辑器的母文件夹
@@ -33,10 +36,9 @@ var txtTreeView = TreeView<Label>()
 var cursorId = ArrayList<String>() //记录所有tab标签的id值
 
 //编辑区上面的tap标签页
-val tabPane = TabPane()
+val tabPane = 选项卡_布局()
 
-@Deprecated("该字段已经快要弃用")
-val fileTab = VBox()//放置tab和它文本编辑器的盒子
+val fileTab = tabPane.拖动事件()//放置tab和它文本编辑器的盒子
 
 //用户的头像
 val ImageSize = R.getPropertie("System.User.Image.Size").toDouble()
@@ -62,7 +64,6 @@ var nowFile: File? = null
 var indexFileName = SimpleIntegerProperty(0)
 var fileBaocun = 0
 
-val bar = ProgressBar(0.0)
 var globalTab:MyTab? = null
 
 fun cssInit(){

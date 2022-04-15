@@ -1,5 +1,6 @@
 package com.wordtree.wt_kt_note_book
 
+import com.kodedu.terminalfx.Terminal
 import com.wordtree.wt_config.Index_Config
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
 import com.wordtree.wt_kt_note_book.view.user.属于用户的操作逻辑区域
@@ -9,7 +10,10 @@ import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.event.EventHandler
+import javafx.geometry.Orientation
+import javafx.scene.Node
 import javafx.scene.Scene
+import javafx.scene.control.SplitPane
 import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
 import javafx.scene.image.Image
@@ -23,6 +27,8 @@ import kotlin.system.exitProcess
 class Coder() : Application() {
     private var bol = true
     private val showStage = Stage()
+    private val terminalView = Terminal()
+
 
     override fun start(primaryStage: Stage) {
         initYt(primaryStage)
@@ -86,15 +92,35 @@ class Coder() : Application() {
         fileItemRoot.graphic = YtIcon(R.ImageUrl2("FileSet"))
         文件树()
 
+        centerPaneRoot.items.addAll(centerPane,下侧终端模拟器())
         内容区()
 
         左侧项目栏()
 
-
         //确定内容区布局,包过文件树,文件tab,和用户box
         centerPane.items.addAll(文件操作切换(), fileTab, userBox)
+        centerPaneRoot.dividers[0].positionProperty().addListener { observable, oldValue, newValue ->
+            println(newValue)
+            if (newValue.toDouble() > 0.98) {
+                terminalView.isVisible = false
+                println("dsfsd")
+            }else{
+                terminalView.isVisible = true
+            }
+        }
         //下面进度条
         进度条()
+
+    }
+
+    fun 下侧终端模拟器(): Node {
+        val splitPane = SplitPane().apply {
+            orientation = Orientation.VERTICAL
+        }
+        terminalView.prefHeight = 500.0
+        terminalView.prefWidth = 500.0
+        splitPane.items.add(terminalView)
+        return splitPane
     }
 
     private fun 文件操作切换():TabPane{

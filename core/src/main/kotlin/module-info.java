@@ -19,6 +19,7 @@ module com.wordtree {
     requires reactfx;
     requires com.jfoenix;
     requires tboos;
+    requires com.kodedu.terminalfx;
 
     opens com.wordtree to javafx.fxml,hutool.all;
     opens com.wordtree.wt_kt_note_book to javafx.fxml,hutool.all;

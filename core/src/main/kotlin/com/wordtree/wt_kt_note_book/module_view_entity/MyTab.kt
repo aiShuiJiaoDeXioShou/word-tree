@@ -1,5 +1,6 @@
 package com.wordtree.wt_kt_note_book.module_view_entity
 
+import cn.hutool.core.io.FileUtil
 import com.wordtree.wt_kt_note_book.globalTab
 import com.wordtree.wt_kt_note_book.nowFile
 import com.wordtree.wt_kt_note_book.saveFile
@@ -9,11 +10,10 @@ import com.wordtree.wt_kt_note_book.service.XMLEditorService
 import com.wordtree.wt_toolkit.flie_expand.FileToolYt
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Platform
+import javafx.event.ActionEvent
+import javafx.event.Event
 import javafx.event.EventHandler
-import javafx.scene.control.Alert
-import javafx.scene.control.ButtonBar
-import javafx.scene.control.ButtonType
-import javafx.scene.control.Tab
+import javafx.scene.control.*
 import org.fxmisc.flowless.VirtualizedScrollPane
 import org.fxmisc.richtext.CodeArea
 import java.io.BufferedReader
@@ -48,17 +48,50 @@ class MyTab(var file:File):Tab() {
             }
         }
         this.onCloseRequest = EventHandler {
-            if (coderArea.isModifyBol){
-                val alert = warningAlert()
-                val result = alert.showAndWait()
-                if (result.get().buttonData.equals(ButtonBar.ButtonData.YES)) {
-                    saveFile()
-                    it.clone()
-                } else if (result.get().buttonData.equals(ButtonBar.ButtonData.NO)) {
-                    it.consume()
-                } else if (result.get().buttonData.equals(ButtonBar.ButtonData.APPLY)) {
-                    it.clone()
+            isCheckThereSave(it)
+        }
+        val contextMenu = ContextMenu()
+        val menuClose = MenuItem("关闭")
+        val menuCloseOthrn = MenuItem("关闭其他")
+        val menuCloseAll = MenuItem("关闭所有")
+        menuClose.addEventHandler(ActionEvent.ACTION) {
+            this.tabPane.tabs.remove(this)
+            saveSelfFile()
+        }
+        menuCloseOthrn.addEventHandler(ActionEvent.ACTION) {
+            this.tabPane.tabs.removeIf {
+                if ((it as MyTab).coderArea.isModifyBol) {
+                    it.saveSelfFile()
                 }
+                it != this
+            }
+        }
+        menuCloseAll.addEventHandler(ActionEvent.ACTION) {
+            this.tabPane.tabs.removeIf {
+                if ((it as MyTab).coderArea.isModifyBol) {
+                    it.saveSelfFile()
+                }
+                true
+            }
+        }
+        contextMenu.apply {
+            items.addAll(menuClose,menuCloseOthrn,menuCloseAll)
+        }
+
+        this.contextMenu = contextMenu
+    }
+
+    fun isCheckThereSave(it: Event){
+        if (coderArea.isModifyBol){
+            val alert = warningAlert()
+            val result = alert.showAndWait()
+            if (result.get().buttonData.equals(ButtonBar.ButtonData.YES)) {
+                saveFile()
+                it.clone()
+            } else if (result.get().buttonData.equals(ButtonBar.ButtonData.NO)) {
+                it.consume()
+            } else if (result.get().buttonData.equals(ButtonBar.ButtonData.APPLY)) {
+                it.clone()
             }
         }
     }
@@ -88,5 +121,9 @@ class MyTab(var file:File):Tab() {
         alert.headerText = "文件还未保存确定关闭吗？"
         alert.contentText = "需要保存文件请点击ok！\n点击取消将不保存文件"
         return alert
+    }
+
+    fun saveSelfFile(){
+        FileUtil.writeString(coderArea.text, file, "utf-8")
     }
 }

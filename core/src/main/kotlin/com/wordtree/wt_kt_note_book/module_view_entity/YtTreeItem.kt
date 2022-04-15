@@ -84,7 +84,22 @@ open class YtTreeItem(var file:File,val isFileBool:Boolean = false) :TreeItem<La
             }
         }
 
-        contextMenu.items.addAll(newFile, delFile, againFile)
+        val copyFile = MenuItem("复制")
+        againFile.onAction = EventHandler{
+
+        }
+
+        val pasteFile = MenuItem("粘贴")
+        againFile.onAction = EventHandler{
+
+        }
+
+        val copFilePath = MenuItem("复制文件路径")
+        copFilePath.onAction = EventHandler {
+
+        }
+
+        contextMenu.items.addAll(newFile, delFile, againFile,copyFile,pasteFile,copFilePath)
 
         node.onMouseClicked = EventHandler {
             if (it.button == MouseButton.SECONDARY) {

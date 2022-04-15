@@ -10,6 +10,7 @@
     -fx-cursor:hand;
     -fx-border:none;
 }
+
 .context-menu{
     -fx-padding:2;
     -fx-border-width:0;
