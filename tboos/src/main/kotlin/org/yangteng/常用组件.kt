@@ -120,6 +120,86 @@ open class 选项卡_布局 : TabPane() {
     init {
 //        this.stylesheets.add(选项卡_布局::class.java.getResource("选项卡.css").toExternalForm())
     }
+    fun 拖动事件(): VBox {
+        var pos = 0
+        var prePos = 0
+        val vBox = VBox()
+        var 判断添加那个颜色 = true
+        val listView = ListView<Label>()
+        //这个是基本属性
+        listView.apply {
+            this.orientation = Orientation.HORIZONTAL
+            this.prefHeight = 0.0
+            this.isVisible = false
+        }
+        this@选项卡_布局.apply {
+            this@选项卡_布局.onDragDetected = EventHandler {
+                val drop = this@选项卡_布局.startDragAndDrop(TransferMode.MOVE)
+                val content = ClipboardContent()
+                content.putString(this@选项卡_布局.selectionModel.selectedItem.text)
+                drop.setContent(content)
+                listView.prefHeight = 50.0
+                listView.isVisible = true
+            }
+            this@选项卡_布局.onDragDone = EventHandler {
+                listView.prefHeight = 0.0
+                listView.isVisible = false
+                if (pos < this.tabs.size) {
+                    val tab = this.selectionModel.selectedItem
+                    this.tabs.removeAt(prePos)
+                    this.tabs.add(pos, tab)
+                    this.selectionModel.select(pos)
+                } else {
+                    this.tabs.add(this.selectionModel.selectedItem)
+                    this.tabs.removeAt(prePos)
+                    this.selectionModel.selectLast()
+                }
+            }
+            this@选项卡_布局.tabs.addListener(ListChangeListener {
+                if (it.next()) {
+                    if (it.wasAdded()) {
+                        //添加该选项卡
+                        val label = Label()
+                        label.apply {
+                            prefWidth = 100.0
+                            prefHeight = 50.0
+                        }
+                        label.onDragOver = EventHandler {
+                            try {
+                                if (pos < this.tabs.size) {
+                                    listView.items.get(pos).style = "-fx-background-color: #ffff"
+                                    this.tabs.get(pos).style = "-fx-border-color: none"
+                                }
+                                this.tabs.get(this.tabs.size - 1).style = "-fx-border-color: none"
+                                val indexOf = listView.items.indexOf(label)
+                                pos = indexOf
+                                label.style = """
+                                    -fx-background-color: red;
+                                """.trimIndent()
+                            } catch (err: IndexOutOfBoundsException) {
+                                println("没有该值，请重新拖拽")
+                            }
+                        }
+                        //为label添加拖拽检测事件
+                        listView.items.add(label)
+                    } else if (it.wasRemoved()) {
+                        //删除该选项卡
+                        listView.items.removeAt(pos)
+                    }
+                }
+
+            })
+            this@选项卡_布局.onDragOver = EventHandler {
+                //获取拖拽之后的位置
+                val index = this.selectionModel.selectedIndex
+                prePos = index
+            }
+        }
+        vBox.children.addAll(listView, this)
+        return vBox
+    }
+
+
 
     @Deprecated("该方法已经被弃用了")
     fun 拖动事件(pane: TabPane): VBox {
@@ -194,94 +274,46 @@ open class 选项卡_布局 : TabPane() {
         return vBox
     }
 
-    fun 拖动事件(): VBox {
-        var pos = 0
-        var prePos = 0
-        val vBox = VBox()
-        var 判断添加那个颜色 = true
-        val listView = ListView<Label>()
-        //这个是基本属性
-        listView.apply {
-            this.orientation = Orientation.HORIZONTAL
-            this.prefHeight = 0.0
-            this.isVisible = false
-        }
-        this@选项卡_布局.apply {
-            this@选项卡_布局.onDragDetected = EventHandler {
-                val drop = this@选项卡_布局.startDragAndDrop(TransferMode.MOVE)
-                val content = ClipboardContent()
-                content.putString(this@选项卡_布局.selectionModel.selectedItem.text)
-                drop.setContent(content)
-                listView.prefHeight = 50.0
-                listView.isVisible = true
-            }
-            this@选项卡_布局.onDragDone = EventHandler {
-                listView.prefHeight = 0.0
-                listView.isVisible = false
-                if (pos < this.tabs.size) {
-                    val tab = this.selectionModel.selectedItem
-                    this.tabs.removeAt(prePos)
-                    this.tabs.add(pos, tab)
-                    this.selectionModel.select(pos)
-                } else {
-                    this.tabs.add(this.selectionModel.selectedItem)
-                    this.tabs.removeAt(prePos)
-                    this.selectionModel.selectLast()
-                }
-            }
-            this@选项卡_布局.tabs.addListener(ListChangeListener {
-                if (it.next()) {
-                    if (it.wasAdded()) {
-                        //添加该选项卡
-                        val label = Label()
-                        label.apply {
-                            prefWidth = 100.0
-                            prefHeight = 50.0
-                        }
-                        label.onDragOver = EventHandler {
-                            try {
-                                if (pos < this.tabs.size) {
-                                    listView.items.get(pos).style = "-fx-background-color: #ffff"
-                                    this.tabs.get(pos).style = "-fx-border-color: none"
-                                }
-                                this.tabs.get(this.tabs.size - 1).style = "-fx-border-color: none"
-                                val indexOf = listView.items.indexOf(label)
-                                pos = indexOf
-                                label.style = """
-                                    -fx-background-color: red;
-                                """.trimIndent()
-                            } catch (err: IndexOutOfBoundsException) {
-                                println("没有该值，请重新拖拽")
-                            }
-                        }
-                        //为label添加拖拽检测事件
-                        listView.items.add(label)
-                    } else if (it.wasRemoved()) {
-                        //删除该选项卡
-                        if (pos< this.tabs.size) {
-                            listView.items.removeAt(pos)
-                        }
-                    }
-                }
-
-            })
-            this@选项卡_布局.onDragOver = EventHandler {
-                //获取拖拽之后的位置
-                val index = this.selectionModel.selectedIndex
-                prePos = index
-            }
-        }
-        vBox.children.addAll(listView, this)
-        return vBox
-    }
 }
 
 open class 选项卡 : Tab() {
 
     init {
+        tabRightClickEvent()
+    }
 
+    //添加右键点击事件
+    private fun tabRightClickEvent(){
+        val contextMenu = ContextMenu()
+        val menuClose = MenuItem("关闭")
+        val menuCloseOthrn = MenuItem("关闭其他")
+        val menuCloseAll = MenuItem("关闭所有")
+        menuClose.addEventHandler(ActionEvent.ACTION) {
+            this.tabPane.tabs.remove(this)
+        }
+        menuCloseOthrn.addEventHandler(ActionEvent.ACTION) {
+            this.tabPane.tabs.removeIf {
+                it != this
+            }
+        }
+        menuCloseAll.addEventHandler(ActionEvent.ACTION) {
+            this.tabPane.tabs.removeIf {
+                true
+            }
+        }
+        contextMenu.apply {
+            items.addAll(menuClose,menuCloseOthrn,menuCloseAll)
+        }
+
+        this.contextMenu = contextMenu
     }
 }
 
 open class 标签
+
+open class 文件树():TreeView<Label>(){
+    init {
+
+    }
+}
 

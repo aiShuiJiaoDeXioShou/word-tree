@@ -3,11 +3,9 @@ package org.yangteng.test;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
+import javafx.scene.layout.Background;
 import javafx.util.Callback;
 
 public class test {
@@ -36,6 +34,24 @@ public class test {
                     }
                 };
                 return cell;
+            }
+        });
+        TreeView<Label> labelTreeView = new TreeView<>();
+
+
+        labelTreeView.setCellFactory(new Callback<TreeView<Label>, TreeCell<Label>>() {
+            Background background = null;
+            TreeCell<Label> treeCell = null;
+            @Override
+            public TreeCell<Label> call(TreeView<Label> param) {
+                treeCell = new TreeCell<Label>(){
+                    @Override
+                    protected void updateItem(Label item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                    }
+                };
+                return treeCell;
             }
         });
     }

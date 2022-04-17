@@ -4,22 +4,17 @@ import com.wordtree.wt_kt_note_book.module_view_entity.MyTab
 import com.wordtree.wt_kt_note_book.module_view_entity.YtTreeItem
 import com.wordtree.wt_toolkit.flie_expand.FileToolYt
 import com.wordtree.wt_toolkit.flie_expand.R
-import javafx.beans.property.SimpleIntegerProperty
 import javafx.scene.control.*
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
-import org.fxmisc.richtext.CodeArea
 import org.yangteng.选项卡_布局
 import java.io.File
 
-@Deprecated("该字段已弃用")
-val codeArea = CodeArea()
 
 var root = BorderPane()
 val topBar = MenuBar()
 val userBox = VBox()
-val USER_WIDTH = 340.0
 val centerPane = SplitPane()
 val centerPaneRoot = SplitPane().apply { orientation = javafx.geometry.Orientation.VERTICAL;setDividerPosition(0,1.0) }
 val bar = ProgressBar(0.0)
@@ -31,9 +26,6 @@ val fileTreeView = TreeView(fileItemRoot)
 var fileViewOpen = true
 
 var txtTreeView = TreeView<Label>()
-
-@Deprecated("该字段已弃用")
-var cursorId = ArrayList<String>() //记录所有tab标签的id值
 
 //编辑区上面的tap标签页
 val tabPane = 选项卡_布局()
@@ -59,13 +51,6 @@ val manuscriptBox = VBox()
 val userSpeedProgressBox = VBox()
 
 //编辑器当前文本对象
-var cursorPosition: HashMap<String, Any> = HashMap() //每一个tab文本都有对应的自己的光标值
 var nowFile: File? = null
-var indexFileName = SimpleIntegerProperty(0)
-var fileBaocun = 0
-
 var globalTab:MyTab? = null
 
-fun cssInit(){
-
-}

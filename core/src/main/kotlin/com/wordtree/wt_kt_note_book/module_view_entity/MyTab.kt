@@ -50,6 +50,10 @@ class MyTab(var file:File):Tab() {
         this.onCloseRequest = EventHandler {
             isCheckThereSave(it)
         }
+        tabRightClickEvent()
+    }
+
+    private fun tabRightClickEvent(){
         val contextMenu = ContextMenu()
         val menuClose = MenuItem("关闭")
         val menuCloseOthrn = MenuItem("关闭其他")

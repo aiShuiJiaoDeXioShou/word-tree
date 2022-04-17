@@ -1,6 +1,5 @@
 package com.wordtree.wt_kt_note_book
 
-import com.kodedu.terminalfx.Terminal
 import com.wordtree.wt_config.Index_Config
 import com.wordtree.wt_kt_note_book.module_view_entity.YtIcon
 import com.wordtree.wt_kt_note_book.view.user.属于用户的操作逻辑区域
@@ -8,27 +7,22 @@ import com.wordtree.wt_kt_note_book.view.左侧项目栏
 import com.wordtree.wt_kt_note_book.view.菜单栏
 import com.wordtree.wt_toolkit.flie_expand.R
 import javafx.application.Application
-import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.geometry.Orientation
-import javafx.scene.Node
 import javafx.scene.Scene
-import javafx.scene.control.SplitPane
-import javafx.scene.control.Tab
-import javafx.scene.control.TabPane
+import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyCodeCombination
 import javafx.stage.Stage
 import org.kordamp.bootstrapfx.BootstrapFX
+import org.yangteng.切换
 import kotlin.system.exitProcess
 
 
 class Coder() : Application() {
     private var bol = true
     private val showStage = Stage()
-    private val terminalView = Terminal()
-
 
     override fun start(primaryStage: Stage) {
         initYt(primaryStage)
@@ -67,8 +61,6 @@ class Coder() : Application() {
         stage.title = Index_Config.APP_NAME
         //因为动态调用链的需要，必须要把布局放在这个位置
         布局()
-        cssInit()
-        全局监听事件()
     }
 
     /**
@@ -84,45 +76,23 @@ class Coder() : Application() {
     private fun 布局() {
         //这里是上界面menu的内容
         菜单栏()
-
         //用户部分布局
         属于用户的操作逻辑区域()
-
         //这个是文件树部分
         fileItemRoot.graphic = YtIcon(R.ImageUrl2("FileSet"))
         文件树()
-
-        centerPaneRoot.items.addAll(centerPane,下侧终端模拟器())
         内容区()
-
         左侧项目栏()
-
         //确定内容区布局,包过文件树,文件tab,和用户box
-        centerPane.items.addAll(文件操作切换(), fileTab, userBox)
-        centerPaneRoot.dividers[0].positionProperty().addListener { observable, oldValue, newValue ->
-            if (newValue.toDouble() > 0.98) {
-                terminalView.isVisible = false
-            }else{
-                terminalView.isVisible = true
-            }
-        }
+        centerPane.items.addAll(文件操作切换(),centerPaneRoot, userBox)
         //下面进度条
         进度条()
-
-    }
-
-    fun 下侧终端模拟器(): Node {
-        val splitPane = SplitPane().apply {
-            orientation = Orientation.VERTICAL
-        }
-        terminalView.prefHeight = 500.0
-        terminalView.prefWidth = 500.0
-        splitPane.items.add(terminalView)
-        return splitPane
+        //下面的状态栏
+        root.bottom = 下侧操作栏()
     }
 
     private fun 文件操作切换():TabPane{
-        val 文件操作切换:TabPane = TabPane()
+        val 文件操作切换 = TabPane().apply { maxWidth = 400.0 }
         val 普通文件夹操作 = Tab("项目库")
         普通文件夹操作.content = fileTreeView
         普通文件夹操作.isClosable = false
@@ -139,23 +109,26 @@ class Coder() : Application() {
     }
 
     private fun 进度条(){
-        root.bottom = bar.apply { prefWidth=300.0;prefHeight=10.0 }
+//        root.bottom = bar.apply { prefWidth=300.0;prefHeight=10.0 }
         bar.isVisible = false
     }
 
-    private fun 全局监听事件(){
-        indexFileName.addListener { _, _, new ->
-            if (new.toInt() == 0) {
-                Thread {
-                    Thread.sleep(40);
-                    Platform.runLater {
-                        codeArea.clear()
-                    }
-                }.start()
-            }
+    private fun 下侧操作栏():ListView<Button>{
+        val listView = ListView<Button>().apply { orientation = Orientation.HORIZONTAL;prefHeight = 30.0 }
+        val 终端 = Button("终端")
+        终端.onAction = EventHandler {
+            val centerPaneRoot = centerPane.items.get(1) as SplitPane
+            切换({centerPaneRoot.setDividerPosition(0,0.8)},{centerPaneRoot.setDividerPosition(0,1.0)})
         }
-
+        val 构建 = Button("构建")
+        val 调试 = Button("调试")
+        val TODO = Button("TODO")
+        val 问题 = Button("问题")
+        val 运行 = Button("运行")
+        listView.items.addAll(终端,构建,调试,TODO,问题,运行)
+        return listView
     }
+
 }
 
 

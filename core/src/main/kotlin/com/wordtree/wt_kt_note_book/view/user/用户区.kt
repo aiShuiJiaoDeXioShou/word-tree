@@ -53,7 +53,7 @@ private var tile :Tile? = null
 fun 属于用户的操作逻辑区域() {
     //用户部分布局
     userBox.apply {
-        maxWidth = USER_WIDTH
+        maxWidth = 340.0
         minWidth = 0.0
         children.addAll(用户名片部分(), 用户操作部分(), 书架())
         userOperationBox.add(userRecord)
