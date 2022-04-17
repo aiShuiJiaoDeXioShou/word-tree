@@ -4,7 +4,7 @@ import com.wordtree.wt_module.writing.ui.AdministratorsUI;
 import com.wordtree.wt_module.writing.ui.LoginUI;
 import com.wordtree.wt_module.writing.ui.RegisterUI;
 import com.wordtree.wt_toolkit.flie_expand.FileToolYt;
-import com.wordtree.wt_writing_bao.LianJie;
+import com.wordtree.wt_writing_bao.ConnectionHistory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class SignInWindowkz {
-    public static LianJie lianJie = new LianJie();
+    public static ConnectionHistory connectionHistory = new ConnectionHistory();
     public static final JFrame MAIN_FRAME = new JFrame("欢迎来到WordTree！");
     public static Integer WIDE = 800;
     public static Integer HIGH = 600;

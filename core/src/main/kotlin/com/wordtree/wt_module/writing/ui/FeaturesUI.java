@@ -2,7 +2,7 @@ package com.wordtree.wt_module.writing.ui;
 
 import com.wordtree.wt_physical.User;
 import com.wordtree.wt_toolkit.baoExpand.MethodExpands;
-import com.wordtree.wt_writing_bao.LianJie;
+import com.wordtree.wt_writing_bao.ConnectionHistory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import static com.wordtree.wt_module.writing.SignInWindowkz.lianJie;
+import static com.wordtree.wt_module.writing.SignInWindowkz.connectionHistory;
 
 public class FeaturesUI {
     public static final JFrame jFrameY = new JFrame();
@@ -144,7 +144,7 @@ public class FeaturesUI {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         try {
-                            lianJie.setDataTon("INSERT `基本信息表`(biming,`user`,`password`) VALUES(?,?,?)", jTextField2.getText(), jTextField3.getText(), jTextField4.getText());
+                            connectionHistory.setDataTon("INSERT `基本信息表`(biming,`user`,`password`) VALUES(?,?,?)", jTextField2.getText(), jTextField3.getText(), jTextField4.getText());
                             JOptionPane.showMessageDialog(jFrame,"添加成功");
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
@@ -179,7 +179,7 @@ public class FeaturesUI {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         try {
-                            LianJie.setDataTon("delete from `基本信息表` where `user`=?",jTextField.getText());
+                            ConnectionHistory.setDataTon("delete from `基本信息表` where `user`=?",jTextField.getText());
                             JOptionPane.showMessageDialog(jFrame,"删除成功！");
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();

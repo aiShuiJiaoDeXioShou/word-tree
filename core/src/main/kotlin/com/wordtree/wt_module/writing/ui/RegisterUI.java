@@ -1,6 +1,6 @@
 package com.wordtree.wt_module.writing.ui;
 
-import com.wordtree.wt_writing_bao.LianJie;
+import com.wordtree.wt_writing_bao.ConnectionHistory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +48,7 @@ public class RegisterUI extends BaseDialogUI {
             String password2 = userPossTxt2.getText();
             try {
                 if (password.equals(password2)) {
-                    LianJie.setDataTon("INSERT `基本信息表`(`user`,`password`) VALUES(?,?)", userN, password);
+                    ConnectionHistory.setDataTon("INSERT `基本信息表`(`user`,`password`) VALUES(?,?)", userN, password);
                     JOptionPane.showMessageDialog(this, "注册成功！");
                     this.dispose();
                 } else {

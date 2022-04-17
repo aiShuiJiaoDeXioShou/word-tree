@@ -3,7 +3,8 @@ import com.wordtree.wt_physical.User;
 
 import java.sql.*;
 import java.util.HashMap;
-public class LianJie{
+
+public class ConnectionHistory {
 
     //    实现对数据库的连接
     public static Connection lienJie(String url, String user, String password) throws SQLException {
