@@ -191,5 +191,86 @@ class app7():Application(){
 
 
 fun main() {
-    Application.launch(app7::class.java)
+//    Application.launch(app7::class.java)
+//    regexTest3()
+    regexTest4()
+}
+
+fun regexTest1(){
+    val regex = "=.*=".toRegex()
+    /* val all = regex.findAll("===pinxixi===\nfjsldfjs===dlfjs===jsfldkfjslk===input===\n===第八章===")
+     for (i in all) {
+         println(i.value)
+     }*/
+
+    val str = """
+        ===yangteng===
+        fjsdlfjsdlf
+        jsdlfjsdlfks
+        fsdjflsjfls
+        jdsflsdjflsd
+        ===pinxixi===
+    """.trimIndent()
+
+    val toRegex = "[^=]".toRegex()
+    /* val find = toRegex.find(str)
+     println(find!!.value)*/
+    val findAll = toRegex.findAll(str)
+    findAll.iterator().forEach { println(it.value) }
+    /*val indexOf = str.indexOf("===yangteng===")
+    val indexOf1 = str.indexOf("===pinxixi===")
+    println(indexOf)
+    println(indexOf1)
+    val substring = str.substring(indexOf, indexOf1)
+    println(substring)*/
+}
+
+fun regexTest2(){
+    val str = """
+        gghjkhkjhk
+        hkhkjhhkhk
+        ===yangteng===
+        fjsdlfjsdlf
+        jsdlfjsdlfks
+        fsdjflsjfls
+        jdsflsdjflsd
+        ===pinxixi===
+        fsdfsdfsdfsdfs
+        fsdfsdfsdfsdf
+        fsdfsdfsd
+    """.trimIndent()
+    val regex = "^[=yangteng=][\\s\\S]*[===pinxixi===]+".toRegex()
+    val find = regex.find(str)
+    println(find!!.value)
+}
+
+fun regexTest3(){
+    val str = """
+        sdflsdf
+        afjdsfljsd
+        ba
+        dfjsdlfja
+        aaafjsdlfjb
+        fff
+    """.trimIndent()
+    val str2 ="afsdfsb"
+    val regex = "^s.+s$".toRegex()
+    val find1 = regex.find(str2)
+    val find = regex.findAll(str)
+    find.iterator().forEach { println(it.value) }
+    println(find1!!.value)
+}
+
+//匹配以指定字符开头，以指定字符结尾的字符串
+fun regexTest4(){
+    val toRegex = "[^===星辰变===]([\\s\\S]*)[^===变身奥特曼===]".toRegex()
+    val find = toRegex.find("""
+        ===星辰变===
+        sfjdlfkdjlkfjdklfjl
+        fjfjfjjjjjb
+        fsdfsdfsdf
+        ===变身奥特曼===
+        fsdfsdfs
+    """.trimIndent())
+    println(find!!.value)
 }

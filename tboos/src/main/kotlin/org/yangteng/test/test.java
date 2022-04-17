@@ -10,7 +10,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.input.DragEvent;
 import javafx.util.Callback;
 
-public class fs {
+public class test {
     public static void main(String[] args) {
         ListView<Label> labelListView = new ListView<>();
         TabPane tabPane = new TabPane();
