@@ -1,6 +1,6 @@
 package com.wordtree
 
-import com.wordtree.wt_kt_note_book.Coder
+import com.wordtree.wt_kt_module.Login
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -17,5 +17,5 @@ class HelloApplication : Application() {
 }
 
 fun main() {
-    Application.launch(Coder::class.java)
+    Application.launch(Login::class.java)
 }

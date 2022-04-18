@@ -17,19 +17,22 @@ module com.wordtree {
     requires org.fxmisc.flowless;
     requires reactfx;
     requires com.jfoenix;
-    //这些是自己编写的模块
+    //这些是自己编写的模块sd
     requires tboos;
     requires com.kodedu.terminalfx;
     requires com.wordtree.service;
+
     opens com.wordtree to javafx.fxml,hutool.all;
     opens com.wordtree.wt_kt_note_book to javafx.fxml,hutool.all;
     opens com.wordtree.wt_kt_note_book.view to javafx.fxml,hutool.all;
     opens com.wordtree.wt_kt_note_book.service to javafx.fxml,hutool.all;
     opens com.wordtree.wt_kt_note_book.view.user to javafx.fxml,hutool.all;
+    opens com.wordtree.wt_kt_module to  javafx.graphics;
     exports com.wordtree;
     exports com.wordtree.wt_kt_note_book;
     exports com.wordtree.wt_test;
     exports com.wordtree.wt_kt_note_book.module_view_entity;
     exports com.wordtree.wt_kt_note_book.view;
     exports com.wordtree.wt_kt_note_book.service;
+    exports com.wordtree.wt_kt_module;
 }

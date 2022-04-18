@@ -23,6 +23,7 @@
     </properties>
 
     <dependencies>
+<!--        这个是javafx一些图形化界面的库-->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -91,6 +92,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+<!--        测试单元-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -103,6 +105,7 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!--        kotlin资源-->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -113,16 +116,19 @@
             <artifactId>richtextfx</artifactId>
             <version>0.10.9</version>
         </dependency>
+        <!--        这个是中文java工具集-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>5.8.0.M2</version>
         </dependency>
+        <!-- mysql数据库 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.22</version>
         </dependency>
+        <!--这个是开源json解析工具-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

@@ -10,7 +10,6 @@ module com.wordtree.service {
     requires spring.jcl;
     requires org.aspectj.weaver;
     requires annotations;
-    opens com.wordtree.service.service to spring.core,spring.aop,spring.beans,spring.context,spring.expression,spring.jcl,org.aspectj.weaver;
     opens com.wordtree.service.service.impl to spring.core,spring.aop,spring.beans,spring.context,spring.expression,spring.jcl,org.aspectj.weaver;
     opens com.wordtree.service.config to spring.core,spring.aop,spring.beans,spring.context,spring.expression,spring.jcl,org.aspectj.weaver;
     opens com.wordtree.service.controller to spring.core,spring.aop,spring.beans,spring.context,spring.expression,spring.jcl,org.aspectj.weaver;
