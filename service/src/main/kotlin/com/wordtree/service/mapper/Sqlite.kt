@@ -1,4 +1,4 @@
-package com.wordtree.wt_writing_bao
+package com.wordtree.service.mapper
 
 import java.sql.Connection
 import java.sql.DriverManager

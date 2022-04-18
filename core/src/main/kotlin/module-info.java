@@ -3,7 +3,6 @@ module com.wordtree {
     requires javafx.fxml;
     requires javafx.web;
     requires kotlin.stdlib;
-
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
@@ -20,6 +19,7 @@ module com.wordtree {
     requires com.jfoenix;
     requires tboos;
     requires com.kodedu.terminalfx;
+    requires service;
 
     opens com.wordtree to javafx.fxml,hutool.all;
     opens com.wordtree.wt_kt_note_book to javafx.fxml,hutool.all;

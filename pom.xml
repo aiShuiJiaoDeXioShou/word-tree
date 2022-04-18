@@ -12,6 +12,7 @@
         <module>core</module>
         <module>tboos</module>
         <module>TermainalFX</module>
+        <module>service</module>
     </modules>
     <name>wordtree3</name>
 
@@ -151,6 +152,7 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
+                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
