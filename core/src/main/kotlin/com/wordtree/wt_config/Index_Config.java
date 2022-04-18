@@ -1,8 +1,8 @@
 package com.wordtree.wt_config;
 
 public class Index_Config {
-    public static final String APP_NAME = "来自 - 星辰";
-    public static final String APP_ICON = "static/img/icon.png";
+    public static final String APP_NAME = "Word Tree";
+    public static final String APP_ICON = "static/img/ic3.png";
     public static final String App_User_Name = "绝铉末音";
     public static final String App_User_Motto = "终末的交响曲，亦是无与伦比的疯狂。";
     public static final String FileMenu = "文件（F）";
