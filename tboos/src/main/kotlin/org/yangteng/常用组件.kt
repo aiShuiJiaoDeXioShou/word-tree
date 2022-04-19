@@ -1,16 +1,22 @@
 package org.yangteng
 
+import javafx.application.Application
 import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.value.ObservableValue
 import javafx.collections.ListChangeListener
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.geometry.Orientation
 import javafx.scene.Node
+import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.input.ClipboardContent
+import javafx.scene.input.MouseEvent
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Paint
+import javafx.stage.Stage
+import javafx.stage.StageStyle
 
 open class 按钮() : Button() {
     private val 按钮_Css = 按钮::class.java.getResource("按钮_样式表.css").toExternalForm()
@@ -315,5 +321,120 @@ open class 文件树():TreeView<Label>(){
     init {
 
     }
+}
+
+open class 列表布局<T:Node>():ListView<T>(){
+    init {
+        this.stylesheets.add(列表布局::class.java.getResource("列表布局.css")?.toExternalForm())
+    }
+
+    /*fun 列表拖拽(){
+        this.setCellFactory { param: ListView<T>? ->
+            var position = 0
+            val cell = MyListCell<T>()
+            cell.hoverProperty().addListener { _, _, new ->
+                if (new){
+                    position = param!!.items.indexOf(cell.itemG)
+                    println(position)
+                }
+            }
+            cell
+        }
+    }
+
+    class MyListCell<T:Node>():ListCell<T>(){
+        var itemG: T? = null
+        override fun updateItem(item: T, empty: Boolean) {
+            super.updateItem(item, empty)
+            if (!empty){
+                itemG = item
+                this.graphic = itemG
+            }
+        }
+    }*/
+}
+
+open class 自定义窗口(node:Node): Stage(){
+    private val SHOW_WIN_WIDTH = 300.0
+    private val SHOW_WIN_HEIGTH = 500.0
+    private var xOffset = 0.0
+    private  var yOffset = 0.0 //自定义dialog移动横纵坐标
+    init {
+        this.isAlwaysOnTop = true;
+        this.maxWidth = SHOW_WIN_WIDTH
+        this.maxHeight = SHOW_WIN_HEIGTH
+        this.minHeight = SHOW_WIN_WIDTH
+        this.minWidth = SHOW_WIN_HEIGTH
+        //隐藏windows平台原有的样式
+        this.initStyle(StageStyle.TRANSPARENT)
+        val box = VBox()
+        box.children.addAll(node)
+        this.scene = Scene(box)
+        MouseDragEvent(box,this)
+    }
+
+    //窗口的拖动事件
+    private fun MouseDragEvent(root: Node, primaryStage: Stage) {
+        //监听窗口的x跟y值，当他们发生改变的时候刷新值
+        primaryStage.xProperty()
+            .addListener { observable: ObservableValue<out Number?>?, oldValue: Number?, newValue: Number? ->
+                if (newValue != null) {
+                    x = newValue.toDouble()
+                }
+            }
+        primaryStage.yProperty()
+            .addListener { observable: ObservableValue<out Number?>?, oldValue: Number?, newValue: Number? ->
+                if (newValue != null) {
+                    y = newValue.toDouble()
+                }
+            }
+
+        //当鼠标点击该位置的时候获取横纵坐标
+        root.onMousePressed = EventHandler { event: MouseEvent ->
+            event.consume()
+            xOffset = event.sceneX
+            if (event.sceneY > 46) {
+                yOffset = 0.0
+            } else {
+                yOffset = event.sceneY
+            }
+        }
+
+        //根据横纵坐标的位置，监听鼠标的拖动事件，改变窗体位置
+        root.onMouseDragged = EventHandler { event: MouseEvent ->
+            //根据鼠标的横纵坐标移动dialog位置
+            if (yOffset != 0.0) {
+                primaryStage.x = event.screenX - xOffset
+                if (event.screenY - yOffset < 0) {
+                    primaryStage.y = 0.0
+                } else {
+                    primaryStage.y = event.screenY - yOffset
+                }
+            }
+        }
+    }
+}
+
+open class 悬浮窗口(){
+
+}
+
+class appTest:Application(){
+    override fun start(primaryStage: Stage?) {
+        val xiaoc = 自定义窗口(Label("不是一次失败"))
+        val button = Button("点击显示弹窗")
+        button.onAction = EventHandler {
+            xiaoc.show()
+        }
+        val box = VBox()
+        box.children.add(button)
+        primaryStage!!.scene = Scene(box)
+        primaryStage.show()
+    }
+
+}
+
+fun main() {
+    Application.launch(appTest::class.java)
 }
 

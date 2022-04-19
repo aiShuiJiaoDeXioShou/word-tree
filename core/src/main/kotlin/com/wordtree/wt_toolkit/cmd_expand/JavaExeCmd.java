@@ -15,7 +15,8 @@ public class JavaExeCmd {
         BufferedInputStream in = null;
         BufferedReader inBr = null;
         try {
-            Process p = rt.exec(cmd);
+            String[] cmds = cmd.split(" ");
+            Process p = rt.exec(cmds);
             String lineStr = "";
             String line = null;
             StringBuilder sb = new StringBuilder();

@@ -25,7 +25,7 @@ class MyCode():CodeArea() {
                     this.isModifyBol = true
                 }
             }
-
         }
+
     }
 }

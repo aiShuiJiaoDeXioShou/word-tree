@@ -1,0 +1,16 @@
+.list-view{
+
+}
+.list-cell{
+    -fx-text-fill: #292e34;
+    -fx-pref-height: 30px;
+    -fx-background-color: #ffff;
+}
+.list-cell:hover,
+.list-cell:focused {
+    -fx-background-color: rgba(0,0,0,0.1);
+}
+
+.list-cell .label:focused {
+    -fx-text-fill: #292e34;
+}

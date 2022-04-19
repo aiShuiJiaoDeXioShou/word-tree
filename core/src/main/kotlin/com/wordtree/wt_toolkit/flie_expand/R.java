@@ -114,8 +114,7 @@ public class R {
     }
 
     public static void main(String[] args) {
-        boolean b = updateProperty("aoteman", "迪迦奥特曼");
-        System.out.println(b);
+
     }
 
 }
