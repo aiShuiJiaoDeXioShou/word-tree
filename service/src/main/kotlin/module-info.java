@@ -6,6 +6,7 @@ module com.wordtree.service {
     requires spring.beans;
     requires spring.context;
     requires spring.expression;
+    requires spring.jdbc;
     requires sqlite.jdbc;
     requires spring.jcl;
     requires org.aspectj.weaver;

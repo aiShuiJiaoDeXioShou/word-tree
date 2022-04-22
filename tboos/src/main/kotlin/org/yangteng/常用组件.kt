@@ -334,15 +334,31 @@ open class 文件树():TreeView<Label>(){
 }
 
 
-class 图标(
-    imgUrl: InputStream,
-    val width: Double = 14.0,
-    val height: Double = 14.0,
-    image: Image = Image(imgUrl,
-        width,
-        height,
-        true,
-        true)) : ImageView(image){
+class 图标() : ImageView(){
+    constructor(
+        imgUrl: InputStream,
+        width: Double = 14.0,
+        height: Double = 14.0,
+        image: Image = Image(imgUrl,
+            width,
+            height,
+            true,
+            true)
+    ) : this() {
+        this.image = image
+    }
+    constructor(
+        imgUrl: String,
+        width: Double = 14.0,
+        height: Double = 14.0,
+        image: Image = Image(imgUrl,
+            width,
+            height,
+            true,
+            true)
+    ):this(){
+
+    }
 
 }
 
@@ -689,7 +705,80 @@ class appTest:Application(){
 
 }
 
+class 评论树(val commentData:ArrayList<评论>? = null,val userName:String = "世界树用户:"):Application(){
+    var nawItem:TreeItem<VBox>? = null
+    override fun start(primaryStage: Stage?) {
+        val root = VBox()
+        root.children.add(Label("评论树"))
+        val view = TreeView<VBox>()
+
+        //显示区
+        val treeItemRoot = TreeItem(评论箱子("评论箱子",""))
+        nawItem = treeItemRoot
+        view.root = treeItemRoot
+        view.root.isExpanded = true
+        view.isShowRoot = false
+        root.children.add(view)
+        if (commentData != null){
+            评论递归(commentData,treeItemRoot)
+        }
+
+
+        //评论区
+        val commentBox = HBox()
+        val spanLabel = Label("${userName}评论：")
+        val field = TextField()
+        val commentBut = Button("发送")
+        commentBox.children.addAll(spanLabel,field,commentBut)
+        root.children.add(commentBox)
+
+        commentBut.setOnMouseClicked {
+            val text = field.text
+            if (text.trim().isNotEmpty()){
+                val treeItem = TreeItem(评论箱子(userName.plus(text.trim()),""))
+                treeItem.isExpanded = true
+                nawItem!!.children.add(treeItem)
+            }
+        }
+        view.selectionModel.selectedItemProperty().addListener { _,_,new->
+            nawItem = new
+            val label = new.value.children.get(0) as Label
+            val indexOf = label.text.indexOf(":")
+            println(indexOf)
+            if (indexOf != -1){
+                spanLabel.text = "${userName}评论：@${label.text.substring(0,indexOf)}"
+            }
+        }
+
+        primaryStage!!.width = 600.0
+        primaryStage.height = 600.0
+        primaryStage.scene = Scene(root)
+        primaryStage.show()
+    }
+
+    private fun 评论递归(commentData:ArrayList<评论>,parent:TreeItem<VBox>){
+        for (comment in commentData){
+            val treeItem = TreeItem(评论箱子(comment.userName.plus(comment.comment),comment.image))
+            parent.children.add(treeItem)
+            if (comment.commentChildren.size > 0){
+                评论递归((comment.commentChildren as ArrayList<评论>),parent.children.last())
+            }
+        }
+    }
+
+    private fun 评论箱子(评论:String,图片地址:String):VBox{
+        val box = VBox()
+        box.children.add(Label(评论))
+        if (图片地址.isNotEmpty()){
+            box.children.add(图标(图片地址))
+        }
+        return box
+    }
+
+
+}
+
 fun main() {
-    Application.launch(appTest::class.java)
+    Application.launch(评论树::class.java)
 }
 

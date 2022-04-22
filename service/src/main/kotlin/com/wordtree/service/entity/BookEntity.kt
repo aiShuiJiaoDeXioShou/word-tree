@@ -1,41 +1,41 @@
 package com.wordtree.service.entity
 
 //章节信息
-data class Chapter(val id:Int = 0,
-                   val title:String = "",
-                   val chapterIntroduction:String = "",
-                   val content:String = "",
-                   val number: Int = 0,
-                   val bookOwnership:String = "",
-                   val bookId:Int = 0)
+data class Chapter(var id:Int = 0,
+                   var title:String = "",
+                   var chapterIntroduction:String = "",
+                   var content:String = "",
+                   var number: Int = 0,
+                   var bookOwnership:String = "",
+                   var bookId:Int = 0)
 
 //书籍信息
-data class Book(val id:Int = 0,
-                val title: String = "",
-                val imgUrl: String = "",
-                val introduction:String = "",
-                val chapters: List<Chapter> = ArrayList(),
-                val number: Int = 0,
-                val authorId:Int = 0,
-                val bookCategory:String = "")
+data class Book(var id:Int = 0,
+                var title: String = "",
+                var imgUrl: String = "",
+                var introduction:String = "",
+                var chapters: List<Chapter> = ArrayList(),
+                var number: Int = 0,
+                var authorId:Int = 0,
+                var bookCategory:String = "")
 
 //书籍数据信息
-data class BookData(val bookId:Int = 0,
-                    val hits:Long = 0,
-                    val pay:Long = 0,
-                    val price:Double = 0.0,
-                    val labels:Array<String> = arrayOf())
+data class BookData(var bookId:Int = 0,
+                    var hits:Long = 0,
+                    var pay:Long = 0,
+                    var price:Double = 0.0,
+                    var labels:Array<String> = arrayOf())
 
 //作者信息
-data class Author(val id:Int = 0,
-                  val name:String = "",
-                  val imgUrl:String = "",
-                  val introduction:String = "",
-                  val books:List<Book> = ArrayList())
+data class Author(var id:Int = 0,
+                  var name:String = "",
+                  var imgUrl:String = "",
+                  var introduction:String = "",
+                  var books:List<Book> = ArrayList())
 
 //作者数据信息
-data class AuthorData(val pay: Long = 0,
-                      val fans: Long = 0,
-                      val hits:Long = 0,
-                      val labels:Array<String> = arrayOf(),
-                      val grade:Int = 0)
+data class AuthorData(var pay: Long = 0,
+                      var fans: Long = 0,
+                      var hits:Long = 0,
+                      var labels:Array<String> = arrayOf(),
+                      var grade:Int = 0)
