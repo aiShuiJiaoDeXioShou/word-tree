@@ -6,17 +6,25 @@ import javafx.beans.value.ObservableValue
 import javafx.collections.ListChangeListener
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
+import javafx.geometry.Insets
 import javafx.geometry.Orientation
+import javafx.geometry.Pos
+import javafx.scene.Cursor
 import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.control.*
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.scene.input.ClipboardContent
 import javafx.scene.input.MouseEvent
 import javafx.scene.input.TransferMode
-import javafx.scene.layout.VBox
+import javafx.scene.layout.*
 import javafx.scene.paint.Paint
+import javafx.scene.text.TextAlignment
+import javafx.stage.Screen
 import javafx.stage.Stage
 import javafx.stage.StageStyle
+import java.io.InputStream
 
 open class 按钮() : Button() {
     private val 按钮_Css = 按钮::class.java.getResource("按钮_样式表.css").toExternalForm()
@@ -99,7 +107,9 @@ open class 对话框(node: Node, vararg buttonType: ButtonType) : Dialog<ButtonT
     init {
         selfDialogPane.content = node
         this.dialogPane = selfDialogPane
-        selfDialogPane.buttonTypes.addAll(*buttonType)
+        if (buttonType.size>0){
+            selfDialogPane.buttonTypes.addAll(*buttonType)
+        }
     }
 
     class MyDialogPane(val selfDialog: 对话框) : DialogPane() {
@@ -323,44 +333,38 @@ open class 文件树():TreeView<Label>(){
     }
 }
 
-open class 列表布局<T:Node>():ListView<T>(){
-    init {
-        this.stylesheets.add(列表布局::class.java.getResource("列表布局.css")?.toExternalForm())
-    }
 
-    /*fun 列表拖拽(){
-        this.setCellFactory { param: ListView<T>? ->
-            var position = 0
-            val cell = MyListCell<T>()
-            cell.hoverProperty().addListener { _, _, new ->
-                if (new){
-                    position = param!!.items.indexOf(cell.itemG)
-                    println(position)
-                }
-            }
-            cell
-        }
-    }
+class 图标(
+    imgUrl: InputStream,
+    val width: Double = 14.0,
+    val height: Double = 14.0,
+    image: Image = Image(imgUrl,
+        width,
+        height,
+        true,
+        true)) : ImageView(image){
 
-    class MyListCell<T:Node>():ListCell<T>(){
-        var itemG: T? = null
-        override fun updateItem(item: T, empty: Boolean) {
-            super.updateItem(item, empty)
-            if (!empty){
-                itemG = item
-                this.graphic = itemG
-            }
-        }
-    }*/
 }
 
-open class 自定义窗口(node:Node): Stage(){
-    private val SHOW_WIN_WIDTH = 300.0
-    private val SHOW_WIN_HEIGTH = 500.0
+open class 自定义窗口(node:Node,val SHOW_WIN_WIDTH:Double = 300.0, val SHOW_WIN_HEIGTH:Double = 500.0): Stage(){
     private var xOffset = 0.0
-    private  var yOffset = 0.0 //自定义dialog移动横纵坐标
+    private var yOffset = 0.0 //自定义dialog移动横纵坐标
+    private val iconSize = 25.0
+    private val horizontalBar = AnchorPane()
+    var myIsAlwaysOnTop = true
+    set(value){
+        field = value
+        this.isAlwaysOnTop = value
+    }
+    var icon = Label().apply { graphic = 图标(获取当前目录路径(自定义窗口::class.java, "img/ic3.png")) }
+           set(value) {
+               field = value
+               val index = this.horizontalBar.children.indexOf(icon)
+               this.horizontalBar.children.remove(icon)
+               this.horizontalBar.children.add(index,icon)
+           }
     init {
-        this.isAlwaysOnTop = true;
+        this.isAlwaysOnTop = myIsAlwaysOnTop;
         this.maxWidth = SHOW_WIN_WIDTH
         this.maxHeight = SHOW_WIN_HEIGTH
         this.minHeight = SHOW_WIN_WIDTH
@@ -368,7 +372,10 @@ open class 自定义窗口(node:Node): Stage(){
         //隐藏windows平台原有的样式
         this.initStyle(StageStyle.TRANSPARENT)
         val box = VBox()
-        box.children.addAll(node)
+        //设置窗口横幅
+        setHorizontalBarStyle(box)
+        //设置窗口内容
+        box.children.add(node)
         this.scene = Scene(box)
         MouseDragEvent(box,this)
     }
@@ -413,10 +420,257 @@ open class 自定义窗口(node:Node): Stage(){
             }
         }
     }
+
+    //设置窗口横幅的样式
+    private fun setHorizontalBarStyle(box:VBox){
+        /*val close = Label().apply { graphic = 图标(获取当前目录路径(自定义窗口::class.java, "img/关闭.png"),iconSize,iconSize) }
+         val min = Label().apply { graphic = 图标(获取当前目录路径(自定义窗口::class.java, "img/最小化.png"),iconSize,iconSize) }
+         val max = Label().apply{ graphic = 图标(获取当前目录路径(自定义窗口::class.java, "img/最大化.png"),iconSize,iconSize) }*/
+        val close = Label().apply { text = "X";prefWidth = iconSize;prefHeight = iconSize;textAlignment = TextAlignment.CENTER }
+        val min = Label().apply { text = "-" ;prefWidth = iconSize;prefHeight = iconSize;textAlignment = TextAlignment.CENTER}
+        val max = Label().apply{ text = "口";prefWidth = iconSize;prefHeight = iconSize ;textAlignment = TextAlignment.CENTER}
+        close.layoutX = SHOW_WIN_HEIGTH
+        min.layoutX = SHOW_WIN_HEIGTH - 30
+        max.layoutX = SHOW_WIN_HEIGTH - 50
+        icon.layoutX = 0.0
+        close.addEventHandler(MouseEvent.MOUSE_CLICKED) {
+            this.close()
+        }
+        close.hoverProperty().addListener{_,_,new->
+            if(new){
+                close.style = "-fx-background-color: red;-fx-text-fill: #ffff"
+            }else{
+                close.style = "-fx-background-color: transparent"
+            }
+        }
+        min.addEventHandler(MouseEvent.MOUSE_CLICKED) {
+            this.isIconified = true
+        }
+        min.hoverProperty().addListener{_,_,new->
+            if(new){
+                min.style = "-fx-background-color: rgba(217, 217, 217,0.7);-fx-text-fill: #ffff"
+            }else{
+                min.style = "-fx-background-color: transparent"
+            }
+        }
+        max.addEventHandler(MouseEvent.MOUSE_CLICKED) {
+            if (this.isMaximized){
+                this.isMaximized = false
+            }else{
+                this.isMaximized = true
+            }
+        }
+        max.hoverProperty().addListener{_,_,new->
+            if(new){
+                max.style = "-fx-background-color: rgba(217, 217, 217,0.7)"
+            }else{
+                max.style = "-fx-background-color: transparent"
+            }
+        }
+        close.padding = Insets(0.0,0.0,0.0,10.0)
+        min.padding = Insets(0.0,0.0,0.0,10.0)
+        max.padding = Insets(0.0,0.0,0.0,0.0)
+        icon.padding = Insets(5.0,0.0,0.0,5.0)
+        horizontalBar.children.addAll(icon,close,min)
+        horizontalBar.padding = Insets(0.0,0.0,0.0,0.0)
+        horizontalBar.style = "-fx-background-color: #9254de;"
+        box.children.add(horizontalBar)
+    }
 }
 
 open class 悬浮窗口(){
 
+}
+
+open class 可以改变_自定义窗口(val node: Node) : Stage(){
+    private var x1 = 0.00
+    private var y1 = 0.00
+    private var width1 = 0.00
+    private var height1 = 0.00
+    private var isMax = false
+    private var isRight // 是否处于右边界调整窗口状态
+            = false
+    private var isBottomRight // 是否处于右下角调整窗口状态
+            = false
+    private var isBottom // 是否处于下边界调整窗口状态
+            = false
+    private val RESIZE_WIDTH = 5.00
+    private val MIN_WIDTH = 400.00
+    private val MIN_HEIGHT = 300.00
+    private var xOffset = 0.0
+    private var yOffset = 0.0 //自定义dialog移动横纵坐标
+    private var ICON_SIZE = 25.0
+
+    init {
+        init(this)
+    }
+
+    fun init(primaryStage: Stage) {
+        primaryStage.initStyle(StageStyle.TRANSPARENT)
+        val root = BorderPane()
+        val gridPane = GridPane()
+        gridPane.alignment = Pos.CENTER_LEFT
+        gridPane.padding = Insets(2.0)
+        val icon = Label().apply { graphic = 图标(获取当前目录路径(自定义窗口::class.java, "img/ic3.png"),ICON_SIZE,ICON_SIZE) }
+        val min = Label("—").apply { prefWidth = ICON_SIZE;prefHeight = ICON_SIZE;textAlignment = TextAlignment.CENTER }
+        val max = Label("口").apply { prefWidth = ICON_SIZE;prefHeight = ICON_SIZE;textAlignment = TextAlignment.CENTER }
+        val close = Label("X").apply { prefWidth = ICON_SIZE;prefHeight = ICON_SIZE;textAlignment = TextAlignment.CENTER }
+        close.padding = Insets(0.0,5.0,0.0,5.0)
+        min.padding = Insets(0.0,5.0,0.0,5.0)
+        max.padding = Insets(0.0,5.0,0.0,5.0)
+        gridPane.add(icon, 0, 0)
+        gridPane.add(min, 1, 0)
+        gridPane.add(max, 2, 0)
+        gridPane.add(close, 3, 0)
+        GridPane.setHgrow(icon, Priority.ALWAYS)
+        root.top = gridPane
+        root.center = node
+        root.style = "-fx-background-color: white ;-fx-border-color: rgb(128,128,64); -fx-border-width: 1;"
+        gridPane.style = "-fx-background-color: #9254de;"
+        min.onMouseClicked = EventHandler { primaryStage.isIconified = true }
+        min.hoverProperty().addListener { _, _, new ->
+            if (new) {
+                min.style = "-fx-background-color: rgba(217, 217, 217,0.7);-fx-text-fill: #ffff"
+            } else {
+                min.style = "-fx-background-color: transparent"
+            }
+        }
+        max.onMouseClicked = EventHandler {
+            val rectangle2d = Screen.getPrimary().visualBounds
+            isMax = !isMax
+            if (isMax) {
+                // 最大化
+                primaryStage.x = rectangle2d.minX
+                primaryStage.y = rectangle2d.minY
+                primaryStage.width = rectangle2d.width
+                primaryStage.height = rectangle2d.height
+            } else {
+                // 缩放回原来的大小
+                primaryStage.x = x1
+                primaryStage.y = y1
+                primaryStage.width = width1
+                primaryStage.height = height1
+            }
+        }
+        max.hoverProperty().addListener{_,_,new->
+            if(new){
+                max.style = "-fx-background-color: rgba(217, 217, 217,0.7)"
+            }else{
+                max.style = "-fx-background-color: transparent"
+            }
+        }
+        close.onMouseClicked = EventHandler { event -> primaryStage.close() }
+        close.hoverProperty().addListener{_,_,new->
+            if(new){
+                close.style = "-fx-background-color: red;-fx-text-fill: #ffff"
+            }else{
+                close.style = "-fx-background-color: transparent"
+            }
+        }
+        primaryStage.xProperty()
+            .addListener { observable: ObservableValue<out Number?>?, oldValue: Number?, newValue: Number? ->
+                if (newValue != null && !isMax) {
+                    x1 = newValue.toDouble()
+                }
+            }
+        primaryStage.yProperty()
+            .addListener { observable: ObservableValue<out Number?>?, oldValue: Number?, newValue: Number? ->
+                if (newValue != null && !isMax) {
+                    y1 = newValue.toDouble()
+                }
+            }
+        primaryStage.widthProperty()
+            .addListener { observable: ObservableValue<out Number?>?, oldValue: Number?, newValue: Number? ->
+                if (newValue != null && !isMax) {
+                    width1 = newValue.toDouble()
+                }
+            }
+        primaryStage.heightProperty()
+            .addListener { observable: ObservableValue<out Number?>?, oldValue: Number?, newValue: Number? ->
+                if (newValue != null && !isMax) {
+                    height1 = newValue.toDouble()
+                }
+            }
+        root.onMouseMoved = EventHandler { event: MouseEvent ->
+            event.consume()
+            val x = event.sceneX
+            val y = event.sceneY
+            val width = primaryStage.width
+            val height = primaryStage.height
+            var cursorType = Cursor.DEFAULT // 鼠标光标初始为默认类型，若未进入调整窗口状态，保持默认类型
+            // 先将所有调整窗口状态重置
+            isBottom = false
+            isBottomRight = isBottom
+            isRight = isBottomRight
+            if (y >= height - RESIZE_WIDTH) {
+                if (x <= RESIZE_WIDTH) { // 左下角调整窗口状态
+                    //不处理
+                } else if (x >= width - RESIZE_WIDTH) { // 右下角调整窗口状态
+                    isBottomRight = true
+                    cursorType = Cursor.SE_RESIZE
+                } else { // 下边界调整窗口状态
+                    isBottom = true
+                    cursorType = Cursor.S_RESIZE
+                }
+            } else if (x >= width - RESIZE_WIDTH) { // 右边界调整窗口状态
+                isRight = true
+                cursorType = Cursor.E_RESIZE
+            }
+            // 最后改变鼠标光标
+            root.cursor = cursorType
+        }
+        root.onMouseDragged = EventHandler { event: MouseEvent ->
+
+            //根据鼠标的横纵坐标移动dialog位置
+            event.consume()
+            if (yOffset != 0.0) {
+                primaryStage.x = event.screenX - xOffset
+                if (event.screenY - yOffset < 0) {
+                    primaryStage.y = 0.0
+                } else {
+                    primaryStage.y = event.screenY - yOffset
+                }
+            }
+            val x = event.sceneX
+            val y = event.sceneY
+            // 保存窗口改变后的x、y坐标和宽度、高度，用于预判是否会小于最小宽度、最小高度
+            val nextX = primaryStage.x
+            val nextY = primaryStage.y
+            var nextWidth = primaryStage.width
+            var nextHeight = primaryStage.height
+            if (isRight || isBottomRight) { // 所有右边调整窗口状态
+                nextWidth = x
+            }
+            if (isBottomRight || isBottom) { // 所有下边调整窗口状态
+                nextHeight = y
+            }
+            if (nextWidth <= MIN_WIDTH) { // 如果窗口改变后的宽度小于最小宽度，则宽度调整到最小宽度
+                nextWidth = MIN_WIDTH
+            }
+            if (nextHeight <= MIN_HEIGHT) { // 如果窗口改变后的高度小于最小高度，则高度调整到最小高度
+                nextHeight = MIN_HEIGHT
+            }
+            // 最后统一改变窗口的x、y坐标和宽度、高度，可以防止刷新频繁出现的屏闪情况
+            primaryStage.x = nextX
+            primaryStage.y = nextY
+            primaryStage.width = nextWidth
+            primaryStage.height = nextHeight
+        }
+        //鼠标点击获取横纵坐标
+        root.onMousePressed = EventHandler { event: MouseEvent ->
+            event.consume()
+            xOffset = event.sceneX
+            yOffset = if (event.sceneY > 46) {
+                0.0
+            } else {
+                event.sceneY
+            }
+        }
+        val scene = Scene(root, 400.0, 600.0)
+        primaryStage.scene = scene
+        primaryStage.title = "自定义窗口"
+        primaryStage.show()
+    }
 }
 
 class appTest:Application(){
@@ -424,10 +678,11 @@ class appTest:Application(){
         val xiaoc = 自定义窗口(Label("不是一次失败"))
         val button = Button("点击显示弹窗")
         button.onAction = EventHandler {
+            xiaoc.myIsAlwaysOnTop = false
             xiaoc.show()
         }
         val box = VBox()
-        box.children.add(button)
+        box.children.addAll(button)
         primaryStage!!.scene = Scene(box)
         primaryStage.show()
     }

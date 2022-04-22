@@ -26,6 +26,8 @@ import javafx.scene.paint.Color
 import javafx.scene.paint.ImagePattern
 import javafx.scene.paint.Paint
 import javafx.scene.shape.Circle
+import org.yangteng.可以改变_自定义窗口
+import org.yangteng.对话框
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -176,10 +178,10 @@ private fun 用户名片栏切换_常用工具箱():VBox{
                 this.vgap = 8.0;
                 //设置水平间距
                 this.hgap = 10.0;
-                val toolboxItem1 = Button()
-                toolboxItem1.graphic = ImageView(Image(iconUrl.plus("jifen.png"), 18.0, 18.0, true, true))
-                val toolboxItem2 = Button()
-                toolboxItem2.graphic = ImageView(Image(iconUrl.plus("kabao.png"), 18.0, 18.0, true, true))
+                val 大纲 = Button()
+                大纲.graphic = ImageView(Image(iconUrl.plus("大纲.png"), 18.0, 18.0, true, true))
+                val 任务 = Button()
+                任务.graphic = ImageView(Image(iconUrl.plus("任务.png"), 18.0, 18.0, true, true))
                 val toolboxItem3 = Button()
                 toolboxItem3.graphic = ImageView(Image(iconUrl.plus("pinglun.png"), 18.0, 18.0, true, true))
                 val toolboxItem4 = Button()
@@ -192,8 +194,8 @@ private fun 用户名片栏切换_常用工具箱():VBox{
                 toolboxItem7.graphic = ImageView(Image(iconUrl.plus("shizhong.png"), 18.0, 18.0, true, true))
                 val toolboxItem8 = Button()
                 toolboxItem8.graphic = ImageView(Image(iconUrl.plus("shoucang.png"), 18.0, 18.0, true, true))
-                add(toolboxItem1, 0, 0)
-                add(toolboxItem2, 1, 0)
+                add(大纲, 0, 0)
+                add(任务, 1, 0)
                 add(toolboxItem3, 2, 0)
                 add(toolboxItem4, 3, 0)
                 add(toolboxItem5, 0, 1)
@@ -203,8 +205,19 @@ private fun 用户名片栏切换_常用工具箱():VBox{
 
                 //提示用户当前鼠标停留的位置是什么用法
                 val components = CommonComponents()
-                components.simpleToolTip("金币", toolboxItem1)
-                components.simpleToolTip("金币", toolboxItem2)
+                components.simpleToolTip("大纲", 大纲)
+                components.simpleToolTip("任务", 任务)
+                大纲.setOnMouseClicked {
+                    可以改变_自定义窗口(Label("大纲")).apply {
+                        isAlwaysOnTop = true
+                    }
+                }
+                任务.setOnMouseClicked {
+                    对话框(Label("任务"), ButtonType("关闭",ButtonBar.ButtonData.NO)).apply {
+                        title = "任务"
+                        show()
+                    }
+                }
                 components.simpleToolTip("金币", toolboxItem3)
                 components.simpleToolTip("金币", toolboxItem4)
                 components.simpleToolTip("金币", toolboxItem5)

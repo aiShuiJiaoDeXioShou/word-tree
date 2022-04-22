@@ -192,14 +192,7 @@ class app7():Application(){
 class app8():Application(){
     override fun start(primaryStage: Stage?) {
         val vBox = VBox()
-        val list = 列表布局<Label>()
-        list.items.addAll(
-            Label("你好"),
-            Label("你不好"),
-            Label("你太好了"),
-            Label("你是傻逼"),
-        )
-        vBox.children.add(list)
+
         val scene = Scene(vBox, 400.0, 400.0)
         primaryStage!!.scene = scene
         primaryStage.show()

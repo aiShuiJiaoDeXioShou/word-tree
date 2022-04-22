@@ -190,15 +190,6 @@ public class 鼠标拖动视窗改变大小 extends Application {
                 yOffset = event.getSceneY();
             }
         });
-        //根据鼠标移动的位置改变鼠标的样式
-//      root.setOnMouseMoved(event -> {
-//          event.consume();
-//          if (event.getSceneY() > 46) {
-//              root.getStyleClass().removeAll("sursor-move");
-//          } else {
-//              root.getStyleClass().add("sursor-move");
-//          }
-//      });
 
         Scene scene = new Scene(root, 400, 300);
         primaryStage.setScene(scene);
